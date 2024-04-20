@@ -25,8 +25,8 @@ public class CommentService {
     private final CommentLikeRepository commentLikeRepository;
 
     @Transactional
-    public Long createComment(CommentCreateRequest request) {
-        Comment comment = commentMapper.toEntity(request);
+    public Long createComment(Long postId, CommentCreateRequest request) {
+        Comment comment = commentMapper.toEntity(postId, request);
         Comment savedComment = commentRepository.save(comment);
         return savedComment.getId();
     }

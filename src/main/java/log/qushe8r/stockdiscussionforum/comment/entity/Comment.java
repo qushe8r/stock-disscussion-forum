@@ -1,9 +1,7 @@
 package log.qushe8r.stockdiscussionforum.comment.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import log.qushe8r.stockdiscussionforum.post.entity.Post;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,8 +15,13 @@ public class Comment {
     private Long id;
     private String content;
 
-    public Comment(String content) {
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+    public Comment(String content, Post post) {
         this.content = content;
+        this.post = post;
     }
 
     public Comment(Long id) {
