@@ -1,5 +1,7 @@
 package log.qushe8r.stockdiscussionforum.post.controller;
 
+import log.qushe8r.stockdiscussionforum.comment.dto.CommentCreateRequest;
+import log.qushe8r.stockdiscussionforum.comment.service.CommentService;
 import log.qushe8r.stockdiscussionforum.post.dto.PostCreateRequest;
 import log.qushe8r.stockdiscussionforum.post.dto.PostDetailsResponse;
 import log.qushe8r.stockdiscussionforum.post.dto.PostModifyRequest;
@@ -20,6 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
+    private final CommentService commentService;
 
     @PostMapping
     public ResponseEntity<Void> createPost(@RequestBody PostCreateRequest request) {
@@ -53,6 +56,16 @@ public class PostController {
     public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
         postService.deletePost(postId);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{postId}/comments")
+    public ResponseEntity<Void> createComment(@PathVariable Long postId,
+                                              @RequestBody CommentCreateRequest request) {
+        Long commentId = commentService.createComment(postId, request);
+        URI location = UriComponentsBuilder.fromUriString("/api/comments/{commentId}")
+                .buildAndExpand(commentId)
+                .toUri();
+        return ResponseEntity.ok().location(location).build();
     }
 
     @PostMapping("/{postId}/like")
