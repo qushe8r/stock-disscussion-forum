@@ -5,8 +5,10 @@ import log.qushe8r.stockdiscussionforum.post.dto.PostDetailsResponse;
 import log.qushe8r.stockdiscussionforum.post.dto.PostModifyRequest;
 import log.qushe8r.stockdiscussionforum.post.dto.PostResponse;
 import log.qushe8r.stockdiscussionforum.post.service.PostService;
+import log.qushe8r.stockdiscussionforum.security.user.AuthenticatedUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -51,6 +53,13 @@ public class PostController {
     public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
         postService.deletePost(postId);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{postId}/like")
+    public ResponseEntity<Boolean> operatePostLike(@PathVariable Long postId,
+                                                   @AuthenticationPrincipal AuthenticatedUser authenticatedUser) {
+        boolean response = postService.operatePostLike(postId, authenticatedUser);
+        return ResponseEntity.ok(response);
     }
 
 }
