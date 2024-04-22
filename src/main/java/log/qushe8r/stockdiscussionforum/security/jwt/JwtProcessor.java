@@ -65,10 +65,7 @@ public class JwtProcessor {
         String subject = user.getUsername();
         Date issuedAt = new Date();
         Date expiration = expiration(jwtProperties.accessExpirationMinutes());
-        Map<String, String> claims = Map.of(
-                "role", user.getRole().toString(),
-                "id", String.valueOf(user.getId())
-        );
+        Map<String, String> claims = toClaims(user);
         SecretKey secretKey = secretKey();
         return Jwts.builder()
                 .id(jti)
@@ -78,6 +75,13 @@ public class JwtProcessor {
                 .claims(claims)
                 .signWith(secretKey)
                 .compact();
+    }
+
+    private Map<String, String> toClaims(User user) {
+        return Map.of(
+                "role", user.getRole().toString(),
+                "userId", String.valueOf(user.getId())
+        );
     }
 
 //    public String generateRefreshToken(
