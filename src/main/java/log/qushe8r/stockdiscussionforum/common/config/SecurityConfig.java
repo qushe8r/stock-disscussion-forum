@@ -6,6 +6,7 @@ import log.qushe8r.stockdiscussionforum.security.handler.JwtAuthenticationEntryP
 import log.qushe8r.stockdiscussionforum.security.handler.JwtAuthenticationFailureHandler;
 import log.qushe8r.stockdiscussionforum.security.handler.JwtLogoutHandler;
 import log.qushe8r.stockdiscussionforum.security.jwt.JwtProcessor;
+import log.qushe8r.stockdiscussionforum.security.redis.TokenService;
 import log.qushe8r.stockdiscussionforum.security.utils.CookieCreator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,7 @@ public class SecurityConfig {
     private final ObjectMapper objectMapper;
     private final JwtProcessor jwtProcessor;
     private final CookieCreator cookieCreator;
+    private final TokenService tokenService;
     private final JwtLogoutHandler jwtLogoutHandler;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAuthenticationFailureHandler jwtAuthenticationFailureHandler;
@@ -34,6 +36,7 @@ public class SecurityConfig {
                         objectMapper,
                         jwtProcessor,
                         cookieCreator,
+                        tokenService,
                         jwtLogoutHandler,
                         jwtAuthenticationEntryPoint,
                         jwtAuthenticationFailureHandler),

@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import log.qushe8r.stockdiscussionforum.security.dto.UsernamePassword;
 import log.qushe8r.stockdiscussionforum.security.jwt.JwtProcessor;
+import log.qushe8r.stockdiscussionforum.security.redis.TokenService;
 import log.qushe8r.stockdiscussionforum.security.user.AuthenticatedUser;
 import log.qushe8r.stockdiscussionforum.security.utils.CookieCreator;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private final ObjectMapper objectMapper;
     private final JwtProcessor jwtProcessor;
     private final CookieCreator cookieCreator;
+    private final TokenService tokenService;
 
     @SneakyThrows
     @Override
@@ -53,6 +55,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String jti = UUID.randomUUID().toString();
         String access = jwtProcessor.generateAccessToken(jti, user);
         String refresh = jwtProcessor.generateRefreshToken(jti, user);
+        tokenService.save(jti, user.getUserId());
         Cookie cookie = cookieCreator.create(refresh);
         response.setHeader(HttpHeaders.AUTHORIZATION, JwtProcessor.BEARER + access);
         response.addCookie(cookie);

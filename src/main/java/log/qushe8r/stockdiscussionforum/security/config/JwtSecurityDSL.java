@@ -7,6 +7,7 @@ import log.qushe8r.stockdiscussionforum.security.handler.JwtAuthenticationEntryP
 import log.qushe8r.stockdiscussionforum.security.handler.JwtAuthenticationFailureHandler;
 import log.qushe8r.stockdiscussionforum.security.handler.JwtLogoutHandler;
 import log.qushe8r.stockdiscussionforum.security.jwt.JwtProcessor;
+import log.qushe8r.stockdiscussionforum.security.redis.TokenService;
 import log.qushe8r.stockdiscussionforum.security.utils.CookieCreator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,6 +24,7 @@ public class JwtSecurityDSL extends AbstractHttpConfigurer<JwtSecurityDSL, HttpS
     private final ObjectMapper objectMapper;
     private final JwtProcessor jwtProcessor;
     private final CookieCreator cookieCreator;
+    private final TokenService tokenService;
     private final JwtLogoutHandler jwtLogoutHandler;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAuthenticationFailureHandler jwtAuthenticationFailureHandler;
@@ -45,7 +47,7 @@ public class JwtSecurityDSL extends AbstractHttpConfigurer<JwtSecurityDSL, HttpS
         AuthenticationManager authenticationManager =
                 builder.getSharedObject(AuthenticationManager.class);
         JwtAuthenticationFilter jwtAuthenticationFilter =
-                new JwtAuthenticationFilter(objectMapper, jwtProcessor, cookieCreator);
+                new JwtAuthenticationFilter(objectMapper, jwtProcessor, cookieCreator, tokenService);
         JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtProcessor);
         jwtAuthenticationFilter.setAuthenticationManager(authenticationManager);
         jwtAuthenticationFilter.setFilterProcessesUrl("/api/sign-in");
@@ -59,10 +61,11 @@ public class JwtSecurityDSL extends AbstractHttpConfigurer<JwtSecurityDSL, HttpS
             ObjectMapper objectMapper,
             JwtProcessor jwtProcessor,
             CookieCreator cookieCreator,
+            TokenService tokenService,
             JwtLogoutHandler jwtLogoutHandler,
             JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
             JwtAuthenticationFailureHandler jwtAuthenticationFailureHandler) {
-        return new JwtSecurityDSL(objectMapper, jwtProcessor, cookieCreator, jwtLogoutHandler,
+        return new JwtSecurityDSL(objectMapper, jwtProcessor, cookieCreator, tokenService, jwtLogoutHandler,
                 jwtAuthenticationEntryPoint, jwtAuthenticationFailureHandler);
     }
 
