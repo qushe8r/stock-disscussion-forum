@@ -79,10 +79,13 @@ public class UserService {
     @Transactional
     public String verifyCode(Long userId, String code) {
         String savedCode = verificationCodeService.getVerificationCode(userId);
-
+        if (savedCode == null) {
+            return "인증 코드의 유효 시간은 10분입니다.";
+        }
         if (code.equals(savedCode)) {
             updateUserStatus(userId, UserStatus.ACTIVE);
             updateUserRole(userId, UserRole.ROLE_USER);
+            verificationCodeService.removeVerificationCode(userId);
             return "이메일이 성공적으로 인증되었습니다.";
         }
         return "인증 코드가 올바르지 않습니다.";
