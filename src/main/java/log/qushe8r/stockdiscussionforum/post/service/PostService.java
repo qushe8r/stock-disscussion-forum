@@ -28,8 +28,8 @@ public class PostService {
     private final PostLikeRepository postLikeRepository;
 
     @Transactional
-    public Long createPost(PostCreateRequest request) {
-        Post post = postMapper.toEntity(request);
+    public Long createPost(AuthenticatedUser authenticatedUser, PostCreateRequest request) {
+        Post post = postMapper.toEntity(authenticatedUser, request);
         Post savedPost = postRepository.save(post);
         return savedPost.getId();
     }
