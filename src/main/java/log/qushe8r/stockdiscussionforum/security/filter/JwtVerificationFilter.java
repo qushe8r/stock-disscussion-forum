@@ -51,7 +51,6 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             request.setAttribute(EXCEPTION, JwtExceptionCode.INVALID_TOKEN);
         }
         filterChain.doFilter(request, response);
-
     }
 
     private void setAuthenticationToContext(HttpServletRequest request) {
