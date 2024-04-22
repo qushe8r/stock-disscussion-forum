@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CommentMapper {
     public Comment toEntity(Long postId, CommentCreateRequest request) {
-        return new Comment(request.contents(), new Post(postId));
+        return new Comment(request.content(), new Post(postId));
     }
 
     public CommentResponse toResponse(Comment comment) {
