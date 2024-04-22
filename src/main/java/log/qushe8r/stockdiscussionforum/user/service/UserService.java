@@ -1,10 +1,8 @@
 package log.qushe8r.stockdiscussionforum.user.service;
 
 import log.qushe8r.stockdiscussionforum.mail.EmailService;
-import log.qushe8r.stockdiscussionforum.user.dto.UserCreateRequest;
-import log.qushe8r.stockdiscussionforum.user.dto.UserDetailsResponse;
-import log.qushe8r.stockdiscussionforum.user.dto.UserModifyRequest;
-import log.qushe8r.stockdiscussionforum.user.dto.UserResponse;
+import log.qushe8r.stockdiscussionforum.security.user.AuthenticatedUser;
+import log.qushe8r.stockdiscussionforum.user.dto.*;
 import log.qushe8r.stockdiscussionforum.user.entity.User;
 import log.qushe8r.stockdiscussionforum.user.entity.UserRole;
 import log.qushe8r.stockdiscussionforum.user.entity.UserStatus;
@@ -18,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -110,6 +109,23 @@ public class UserService {
                 .orElseThrow(() -> new UserException(UserExceptionCode.USER_NOT_FOUND));
         user.modifyRole(userRole);
         userRepository.save(user);
+    }
+
+    @Transactional
+    public void modifyPassword(Long userId, AuthenticatedUser authenticatedUser, PasswordModifyRequest request) {
+        if (!Objects.equals(authenticatedUser.getUserId(), userId)) {
+            throw new UserException(UserExceptionCode.CANNOT_CHANGE_INFORMATION);
+        }
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserException(UserExceptionCode.USER_NOT_FOUND));
+
+        if (!passwordEncoder.matches(request.currentPassword(), user.getPassword())) {
+            throw new UserException(UserExceptionCode.CANNOT_CHANGE_INFORMATION);
+        }
+
+        String encodedNewPassword = passwordEncoder.encode(request.newPassword());
+        user.modifyPassword(encodedNewPassword);
     }
 
 }
