@@ -25,11 +25,12 @@ public class AuthenticatedUser implements UserDetails {
     }
 
     public static AuthenticatedUser toAuthenticatedUser(Claims claims) {
-        return new AuthenticatedUser(claims.get("id", Long.class), claims.getSubject(), "", claims.get("role", String.class));
+        Long userId = Long.parseLong(claims.get("userId", String.class));
+        return new AuthenticatedUser(userId, claims.getSubject(), "", claims.get("role", String.class));
     }
 
     public Map<String, String> getClaims() {
-        return Map.of("role", authority, "id", String.valueOf(userId));
+        return Map.of("role", authority, "userId", String.valueOf(userId));
     }
 
     @Override
