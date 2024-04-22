@@ -41,7 +41,7 @@ public class User extends Auditing {
         this.status = UserStatus.PENDING;
     }
 
-    public void modify(String nickname, String bio) {
+    public void modifyInformation(String nickname, String bio) {
         if (nickname != null) {
             this.nickname = nickname;
         }
@@ -50,11 +50,15 @@ public class User extends Auditing {
         }
     }
 
-    public void updateStatus(UserStatus status) {
+    public void modifyPassword(String newPassword) {
+        this.password = newPassword;
+    }
+
+    public void modifyStatus(UserStatus status) {
         this.status = status;
     }
 
-    public void updateRole(UserRole role) {
+    public void modifyRole(UserRole role) {
         this.role = role;
     }
 }
