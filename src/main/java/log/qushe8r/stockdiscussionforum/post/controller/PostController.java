@@ -18,15 +18,16 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("/api/posts")
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
     private final CommentService commentService;
 
     @PostMapping
-    public ResponseEntity<Void> createPost(@RequestBody PostCreateRequest request) {
-        Long response = postService.createPost(request);
+    public ResponseEntity<Void> createPost(@AuthenticationPrincipal AuthenticatedUser authenticatedUser,
+                                           @RequestBody PostCreateRequest request) {
+        Long response = postService.createPost(authenticatedUser, request);
         URI location = UriComponentsBuilder.fromUriString("/posts/{postId}")
                 .path(String.valueOf(response))
                 .build()
