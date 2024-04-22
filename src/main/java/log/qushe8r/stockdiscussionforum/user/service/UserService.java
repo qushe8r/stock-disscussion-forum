@@ -5,8 +5,8 @@ import log.qushe8r.stockdiscussionforum.user.dto.UserCreateRequest;
 import log.qushe8r.stockdiscussionforum.user.dto.UserDetailsResponse;
 import log.qushe8r.stockdiscussionforum.user.dto.UserModifyRequest;
 import log.qushe8r.stockdiscussionforum.user.dto.UserResponse;
-import log.qushe8r.stockdiscussionforum.user.entity.UserRole;
 import log.qushe8r.stockdiscussionforum.user.entity.User;
+import log.qushe8r.stockdiscussionforum.user.entity.UserRole;
 import log.qushe8r.stockdiscussionforum.user.entity.UserStatus;
 import log.qushe8r.stockdiscussionforum.user.exception.UserException;
 import log.qushe8r.stockdiscussionforum.user.exception.UserExceptionCode;
@@ -29,12 +29,15 @@ public class UserService {
     private final VerificationCodeService verificationCodeService;
     private final EmailService emailService;
     private final UserRepository userRepository;
-//    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public void create(UserCreateRequest request) {
-//        String encodedPassword = passwordEncoder.encode(request.password());
-        User user = userMapper.toEntity(request, request.password());
+        userRepository.findByUsername(request.username())
+                .ifPresent(user -> { throw new UserException(UserExceptionCode.USER_ALREADY_EXIST); });
+
+        String encodedPassword = passwordEncoder.encode(request.password());
+        User user = userMapper.toEntity(request, encodedPassword);
         User savedUser = userRepository.save(user);
 
         String verificationCode = getVerificationCode();
@@ -56,6 +59,11 @@ public class UserService {
                 .orElseThrow();
     }
 
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserException(UserExceptionCode.USER_NOT_FOUND));
+    }
+
     public List<UserResponse> getAll() {
         // TODO: 페이징 처리 ? 유저 리스트가 필요하긴 함...?
         return userRepository.findAll()
@@ -71,17 +79,20 @@ public class UserService {
     @Transactional
     public String verifyCode(Long userId, String code) {
         String savedCode = verificationCodeService.getVerificationCode(userId);
-
+        if (savedCode == null) {
+            return "인증 코드의 유효 시간은 10분입니다.";
+        }
         if (code.equals(savedCode)) {
             updateUserStatus(userId, UserStatus.ACTIVE);
             updateUserRole(userId, UserRole.ROLE_USER);
+            verificationCodeService.removeVerificationCode(userId);
             return "이메일이 성공적으로 인증되었습니다.";
         }
         return "인증 코드가 올바르지 않습니다.";
     }
 
     private String getVerificationCode() {
-        return UUID.randomUUID().toString().substring(0, 7);
+        return UUID.randomUUID().toString().substring(0, 6);
     }
 
 
