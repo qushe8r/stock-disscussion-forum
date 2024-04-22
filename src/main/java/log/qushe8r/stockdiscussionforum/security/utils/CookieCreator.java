@@ -4,13 +4,14 @@ import jakarta.servlet.http.Cookie;
 import log.qushe8r.stockdiscussionforum.common.property.ApplicationProperties;
 import log.qushe8r.stockdiscussionforum.security.jwt.JwtProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class CookieCreator {
     public static final String REFRESH = "refresh";
-    public static final String REISSUE = "/reissue";
+    public static final String REISSUE = "/api/auth/reissue";
 
     private final ApplicationProperties applicationProperties;
     private final JwtProperties jwtProperties;
@@ -38,5 +39,19 @@ public class CookieCreator {
         cookie.setSecure(true);
 
         return cookie;
+    }
+
+    public ResponseCookie createResponseCookie(String refreshToken) {
+        String domain = applicationProperties.domain();
+        int maxAge = jwtProperties.refreshExpirationMinutes();
+
+        return ResponseCookie.from(REFRESH)
+                .value(refreshToken)
+                .domain(domain)
+                .path(REISSUE)
+                .maxAge(maxAge)
+                .httpOnly(true)
+                .secure(true)
+                .build();
     }
 }

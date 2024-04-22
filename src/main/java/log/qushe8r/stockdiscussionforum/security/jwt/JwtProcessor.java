@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import log.qushe8r.stockdiscussionforum.security.user.AuthenticatedUser;
+import log.qushe8r.stockdiscussionforum.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -57,6 +58,28 @@ public class JwtProcessor {
                 .compact();
     }
 
+    public String generateAccessToken(
+            String jti,
+            User user
+    ) {
+        String subject = user.getUsername();
+        Date issuedAt = new Date();
+        Date expiration = expiration(jwtProperties.accessExpirationMinutes());
+        Map<String, String> claims = Map.of(
+                "role", user.getRole().toString(),
+                "id", String.valueOf(user.getId())
+        );
+        SecretKey secretKey = secretKey();
+        return Jwts.builder()
+                .id(jti)
+                .subject(subject)
+                .issuedAt(issuedAt)
+                .expiration(expiration)
+                .claims(claims)
+                .signWith(secretKey)
+                .compact();
+    }
+
 //    public String generateRefreshToken(
 //            String jti,
 //            String subject,
@@ -87,6 +110,24 @@ public class JwtProcessor {
                 .expiration(expiration)
                 .signWith(secretKey)
                 .compact();
+    }
+
+    public String generateRefreshToken(
+            String jti,
+            User user
+    ) {
+        String subject = user.getUsername();
+        Date now = new Date();
+        Date expiration = expiration(jwtProperties.refreshExpirationMinutes());
+        SecretKey secretKey = secretKey();
+        return Jwts.builder()
+                .id(jti)
+                .subject(subject)
+                .issuedAt(now)
+                .expiration(expiration)
+                .signWith(secretKey)
+                .compact();
+
     }
 
     public Claims extractClaims(String token) {
