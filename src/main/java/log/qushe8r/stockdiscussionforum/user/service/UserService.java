@@ -59,6 +59,11 @@ public class UserService {
                 .orElseThrow();
     }
 
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserException(UserExceptionCode.USER_NOT_FOUND));
+    }
+
     public List<UserResponse> getAll() {
         // TODO: 페이징 처리 ? 유저 리스트가 필요하긴 함...?
         return userRepository.findAll()
