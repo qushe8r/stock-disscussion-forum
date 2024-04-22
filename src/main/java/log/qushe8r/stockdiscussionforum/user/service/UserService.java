@@ -92,7 +92,7 @@ public class UserService {
     }
 
     private String getVerificationCode() {
-        return UUID.randomUUID().toString().substring(0, 7);
+        return UUID.randomUUID().toString().substring(0, 6);
     }
 
 
