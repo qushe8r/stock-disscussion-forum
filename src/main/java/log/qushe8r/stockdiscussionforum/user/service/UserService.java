@@ -5,8 +5,8 @@ import log.qushe8r.stockdiscussionforum.user.dto.UserCreateRequest;
 import log.qushe8r.stockdiscussionforum.user.dto.UserDetailsResponse;
 import log.qushe8r.stockdiscussionforum.user.dto.UserModifyRequest;
 import log.qushe8r.stockdiscussionforum.user.dto.UserResponse;
-import log.qushe8r.stockdiscussionforum.user.entity.UserRole;
 import log.qushe8r.stockdiscussionforum.user.entity.User;
+import log.qushe8r.stockdiscussionforum.user.entity.UserRole;
 import log.qushe8r.stockdiscussionforum.user.entity.UserStatus;
 import log.qushe8r.stockdiscussionforum.user.exception.UserException;
 import log.qushe8r.stockdiscussionforum.user.exception.UserExceptionCode;
@@ -29,12 +29,15 @@ public class UserService {
     private final VerificationCodeService verificationCodeService;
     private final EmailService emailService;
     private final UserRepository userRepository;
-//    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public void create(UserCreateRequest request) {
-//        String encodedPassword = passwordEncoder.encode(request.password());
-        User user = userMapper.toEntity(request, request.password());
+        userRepository.findByUsername(request.username())
+                .ifPresent(user -> { throw new UserException(UserExceptionCode.USER_ALREADY_EXIST); });
+
+        String encodedPassword = passwordEncoder.encode(request.password());
+        User user = userMapper.toEntity(request, encodedPassword);
         User savedUser = userRepository.save(user);
 
         String verificationCode = getVerificationCode();
