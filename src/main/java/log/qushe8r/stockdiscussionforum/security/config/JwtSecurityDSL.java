@@ -10,13 +10,13 @@ import log.qushe8r.stockdiscussionforum.security.jwt.JwtProcessor;
 import log.qushe8r.stockdiscussionforum.security.redis.TokenService;
 import log.qushe8r.stockdiscussionforum.security.utils.CookieCreator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
@@ -33,12 +33,19 @@ public class JwtSecurityDSL extends AbstractHttpConfigurer<JwtSecurityDSL, HttpS
     public void init(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().permitAll())
+                        .requestMatchers(HttpMethod.POST, "/api/sign-up").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/sign-in").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/logout").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/users/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/timelines/**").authenticated()
+                        .requestMatchers(HttpMethod.PATCH).authenticated()
+                        .requestMatchers(HttpMethod.DELETE).authenticated()
+                        .anyRequest().authenticated())
                 .csrf(CsrfConfigurer::disable)
                 .httpBasic(HttpBasicConfigurer::disable)
                 .headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin))
                 .logout(logout -> logout.logoutSuccessHandler(jwtLogoutHandler).logoutUrl("/api/logout"))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(handler -> handler.authenticationEntryPoint(jwtAuthenticationEntryPoint));
     }
 
@@ -48,7 +55,7 @@ public class JwtSecurityDSL extends AbstractHttpConfigurer<JwtSecurityDSL, HttpS
                 builder.getSharedObject(AuthenticationManager.class);
         JwtAuthenticationFilter jwtAuthenticationFilter =
                 new JwtAuthenticationFilter(objectMapper, jwtProcessor, cookieCreator, tokenService);
-        JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtProcessor);
+        JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtProcessor, tokenService);
         jwtAuthenticationFilter.setAuthenticationManager(authenticationManager);
         jwtAuthenticationFilter.setFilterProcessesUrl("/api/sign-in");
         jwtAuthenticationFilter.setAuthenticationFailureHandler(jwtAuthenticationFailureHandler);

@@ -8,8 +8,10 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import log.qushe8r.stockdiscussionforum.security.exception.JWTException;
 import log.qushe8r.stockdiscussionforum.security.exception.JwtExceptionCode;
 import log.qushe8r.stockdiscussionforum.security.jwt.JwtProcessor;
+import log.qushe8r.stockdiscussionforum.security.redis.TokenService;
 import log.qushe8r.stockdiscussionforum.security.user.AuthenticatedUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,8 @@ import java.io.IOException;
 public class JwtVerificationFilter extends OncePerRequestFilter {
     public static final String EXCEPTION = "exception";
     private final JwtProcessor jwtProcessor;
+    private final TokenService tokenService;
+
 
     @Override
     protected boolean shouldNotFilter(@NonNull HttpServletRequest request) {
@@ -42,7 +46,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
         try {
             setAuthenticationToContext(request);
-        } catch (ExpiredJwtException e) {
+        } catch (ExpiredJwtException | JWTException e) {
             request.setAttribute(EXCEPTION, JwtExceptionCode.ACCESS_TOKEN_EXPIRED);
         } catch (SignatureException e) {
             request.setAttribute(EXCEPTION, JwtExceptionCode.INVALID_TOKEN);
@@ -62,6 +66,9 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         String accessToken =
                 getAuthorizationHeaderValue(request).substring(JwtProcessor.BEARER.length());
         Claims claims = jwtProcessor.extractClaims(accessToken);
+        if (Boolean.TRUE.equals(tokenService.isBlacklisted(claims.getId()))) {
+            throw new JWTException(JwtExceptionCode.INVALID_TOKEN);
+        }
         AuthenticatedUser memberDetails = AuthenticatedUser.toAuthenticatedUser(claims);
         return new UsernamePasswordAuthenticationToken(
                 memberDetails, memberDetails.getPassword(), memberDetails.getAuthorities());

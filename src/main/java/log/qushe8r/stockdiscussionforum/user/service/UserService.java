@@ -1,6 +1,8 @@
 package log.qushe8r.stockdiscussionforum.user.service;
 
 import log.qushe8r.stockdiscussionforum.mail.EmailService;
+import log.qushe8r.stockdiscussionforum.security.redis.Token;
+import log.qushe8r.stockdiscussionforum.security.redis.TokenService;
 import log.qushe8r.stockdiscussionforum.security.user.AuthenticatedUser;
 import log.qushe8r.stockdiscussionforum.user.dto.*;
 import log.qushe8r.stockdiscussionforum.user.entity.User;
@@ -29,6 +31,7 @@ public class UserService {
     private final EmailService emailService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final TokenService tokenService;
 
     @Transactional
     public void registerUser(UserCreateRequest request) {
@@ -126,6 +129,8 @@ public class UserService {
 
         String encodedNewPassword = passwordEncoder.encode(request.newPassword());
         user.modifyPassword(encodedNewPassword);
+        List<Token> tokens = tokenService.findByUserId(userId);
+        tokenService.addBlacklist(tokens);
     }
 
 }

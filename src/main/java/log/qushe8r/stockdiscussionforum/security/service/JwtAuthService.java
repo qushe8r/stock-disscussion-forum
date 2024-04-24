@@ -2,9 +2,11 @@ package log.qushe8r.stockdiscussionforum.security.service;
 
 
 import io.jsonwebtoken.Claims;
-import log.qushe8r.stockdiscussionforum.security.exception.JwtException;
+import jakarta.servlet.http.Cookie;
+import log.qushe8r.stockdiscussionforum.security.exception.JWTException;
 import log.qushe8r.stockdiscussionforum.security.exception.JwtExceptionCode;
 import log.qushe8r.stockdiscussionforum.security.jwt.JwtProcessor;
+import log.qushe8r.stockdiscussionforum.security.redis.Token;
 import log.qushe8r.stockdiscussionforum.security.redis.TokenService;
 import log.qushe8r.stockdiscussionforum.security.utils.CookieCreator;
 import log.qushe8r.stockdiscussionforum.user.entity.User;
@@ -14,6 +16,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 @Service
@@ -31,7 +35,7 @@ public class JwtAuthService {
         String username = claims.getSubject();
 
         tokenService.findById(jti)
-                .orElseThrow(() -> new JwtException(JwtExceptionCode.TOKEN_NOT_FOUND));
+                .orElseThrow(() -> new JWTException(JwtExceptionCode.TOKEN_NOT_FOUND));
         User user = userService.findByUsername(username);
 
         String generatedAccess = jwtProcessor.generateAccessToken(jti, user);
@@ -44,6 +48,16 @@ public class JwtAuthService {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(HttpHeaders.AUTHORIZATION, JwtProcessor.BEARER + generatedAccess);
         httpHeaders.add(HttpHeaders.SET_COOKIE, cookie.toString());
+
+        return httpHeaders;
+    }
+
+    public HttpHeaders logoutAllDevices(Long userId) {
+        List<Token> tokens = tokenService.findByUserId(userId);
+        tokenService.addBlacklist(tokens);
+        Cookie expiredRefresh = cookieCreator.createExpired();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(HttpHeaders.SET_COOKIE, expiredRefresh.toString());
 
         return httpHeaders;
     }
