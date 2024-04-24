@@ -20,7 +20,8 @@ public class FollowController {
     @PostMapping
     public ResponseEntity<Boolean> operateFollow(@RequestBody FollowOperationRequest request,
                                                  @AuthenticationPrincipal AuthenticatedUser authenticatedUser) {
-        boolean response = followService.operateFollow(request, authenticatedUser);
+        Long userId = authenticatedUser.getUserId();
+        boolean response = followService.operateFollow(userId, request);
         return ResponseEntity.ok().body(response);
     }
 

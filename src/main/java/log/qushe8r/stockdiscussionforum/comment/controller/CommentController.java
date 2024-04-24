@@ -24,15 +24,20 @@ public class CommentController {
     }
 
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<Void> deleteComment(@PathVariable Long commentId) {
-        commentService.deleteComment(commentId);
+    public ResponseEntity<Void> deleteComment(@AuthenticationPrincipal AuthenticatedUser authenticatedUser,
+                                              @PathVariable Long commentId) {
+        Long userId = authenticatedUser.getUserId();
+
+        commentService.deleteComment(userId, commentId);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{commentId}/likes")
-    public ResponseEntity<Boolean> operateCommentLike(@PathVariable Long commentId,
-                                                      @AuthenticationPrincipal AuthenticatedUser authenticatedUser) {
-        boolean response = commentService.operateCommentLike(commentId, authenticatedUser);
+    public ResponseEntity<Boolean> operateCommentLike(@AuthenticationPrincipal AuthenticatedUser authenticatedUser,
+                                                      @PathVariable Long commentId) {
+        Long userId = authenticatedUser.getUserId();
+
+        boolean response = commentService.operateCommentLike(userId, commentId);
         return ResponseEntity.ok().body(response);
     }
 
