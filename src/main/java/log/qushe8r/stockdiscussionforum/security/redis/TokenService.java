@@ -35,10 +35,13 @@ public class TokenService {
         tokenRepository.deleteById(jti);
     }
 
-    public void addBlacklist(List<String> jtis) {
-        String[] jtiList = jtis.toArray(new String[0]);
-        stringRedisTemplate.opsForSet().add(BLACKLIST_KEY, jtiList);
+    public void addBlacklist(List<Token> tokens) {
+        String[] jtis = tokens.stream().map(Token::getId)
+                .toList()
+                .toArray(new String[0]);
+        stringRedisTemplate.opsForSet().add(BLACKLIST_KEY, jtis);
     }
+
 
     public Boolean isBlacklisted(String jti) {
         return stringRedisTemplate.opsForSet().isMember(BLACKLIST_KEY, jti);
