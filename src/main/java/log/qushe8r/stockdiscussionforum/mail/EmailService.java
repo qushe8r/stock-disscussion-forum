@@ -20,6 +20,7 @@ public class EmailService {
     public void sendVerificationEmail(String toEmail, Long userId, String verificationCode) {
         if (port != null) {
             domain = domain + ":" + port;
+            port = null;
         }
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(toEmail);
