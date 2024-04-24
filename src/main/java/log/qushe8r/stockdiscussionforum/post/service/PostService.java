@@ -11,8 +11,11 @@ import log.qushe8r.stockdiscussionforum.post.exception.PostExceptionCode;
 import log.qushe8r.stockdiscussionforum.post.mapper.PostMapper;
 import log.qushe8r.stockdiscussionforum.post.repository.PostLikeRepository;
 import log.qushe8r.stockdiscussionforum.post.repository.PostRepository;
-import log.qushe8r.stockdiscussionforum.security.user.AuthenticatedUser;
+import log.qushe8r.stockdiscussionforum.timeline.entity.ActivityType;
+import log.qushe8r.stockdiscussionforum.timeline.event.DeliveryFolloweeActivityEvent;
+import log.qushe8r.stockdiscussionforum.timeline.event.RemoveFolloweeActivityEvent;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,11 +29,14 @@ public class PostService {
     private final PostMapper postMapper;
     private final PostRepository postRepository;
     private final PostLikeRepository postLikeRepository;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Transactional
-    public Long createPost(AuthenticatedUser authenticatedUser, PostCreateRequest request) {
-        Post post = postMapper.toEntity(authenticatedUser, request);
+    public Long createPost(Long userId, PostCreateRequest request) {
+        Post post = postMapper.toEntity(userId, request);
         Post savedPost = postRepository.save(post);
+        applicationEventPublisher
+                .publishEvent(new DeliveryFolloweeActivityEvent(userId, ActivityType.POST, post.getId()));
         return savedPost.getId();
     }
 
@@ -54,16 +60,32 @@ public class PostService {
     }
 
     @Transactional
-    public void deletePost(Long postId) {
-        postRepository.deleteById(postId);
+    public void deletePost(Long userId, Long postId) {
+        postRepository.deleteByWriterIdAndId(userId, postId);
     }
 
     @Transactional
-    public boolean operatePostLike(Long postId, AuthenticatedUser authenticatedUser) {
-        Optional<PostLike> optionalPostLike = postLikeRepository.findByUserIdAndPostId(authenticatedUser.getUserId(), postId);
-        optionalPostLike.ifPresentOrElse(postLikeRepository::delete,
-                () -> postLikeRepository.save(new PostLike(authenticatedUser.getUserId(), postId)));
+    public boolean operatePostLike(Long userId, Long postId) {
+        Optional<PostLike> optionalPostLike = postLikeRepository.findByUserIdAndPostId(userId, postId);
+
+        optionalPostLike.ifPresentOrElse(
+                postLike -> removePostLikeProcess(postLike, userId, postId),
+                () -> createPostLikeProcess(userId, postId));
+
         return optionalPostLike.isEmpty();
+    }
+
+    private void removePostLikeProcess(PostLike postLike, Long userId, Long postId) {
+        postLikeRepository.delete(postLike);
+        applicationEventPublisher
+                .publishEvent(new RemoveFolloweeActivityEvent(userId, ActivityType.POST_LIKE, postId));
+    }
+
+    private void createPostLikeProcess(Long userId, Long postId) {
+        PostLike postLike = new PostLike(userId, postId);
+        postLikeRepository.save(postLike);
+        applicationEventPublisher
+                .publishEvent(new DeliveryFolloweeActivityEvent(userId, ActivityType.POST_LIKE, postId));
     }
 
 }
