@@ -18,8 +18,8 @@ import java.util.List;
 public class PostMapper {
     private final CommentMapper commentMapper;
 
-    public Post toEntity(AuthenticatedUser authenticatedUser, PostCreateRequest request) {
-        return new Post(request.title(), request.content(), new User(authenticatedUser.getUserId()));
+    public Post toEntity(Long userId, PostCreateRequest request) {
+        return new Post(request.title(), request.content(), new User(userId));
     }
 
     public PostDetailsResponse toDetailsResponse(Post post) {
