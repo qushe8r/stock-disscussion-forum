@@ -27,7 +27,9 @@ public class PostController {
     @PostMapping
     public ResponseEntity<Void> createPost(@AuthenticationPrincipal AuthenticatedUser authenticatedUser,
                                            @RequestBody PostCreateRequest request) {
-        Long response = postService.createPost(authenticatedUser, request);
+        Long userId = authenticatedUser.getUserId();
+
+        Long response = postService.createPost(userId, request);
         URI location = UriComponentsBuilder.fromUriString("/posts/{postId}")
                 .path(String.valueOf(response))
                 .build()
@@ -54,15 +56,21 @@ public class PostController {
     }
 
     @DeleteMapping("/{postId}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
-        postService.deletePost(postId);
+    public ResponseEntity<Void> deletePost(@AuthenticationPrincipal AuthenticatedUser authenticatedUser,
+                                           @PathVariable Long postId) {
+        Long userId = authenticatedUser.getUserId();
+
+        postService.deletePost(userId, postId);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{postId}/comments")
-    public ResponseEntity<Void> createComment(@PathVariable Long postId,
+    public ResponseEntity<Void> createComment(@AuthenticationPrincipal AuthenticatedUser authenticatedUser,
+                                              @PathVariable Long postId,
                                               @RequestBody CommentCreateRequest request) {
-        Long commentId = commentService.createComment(postId, request);
+        Long writerId = authenticatedUser.getUserId();
+
+        Long commentId = commentService.createComment(writerId, postId, request);
         URI location = UriComponentsBuilder.fromUriString("/api/comments/{commentId}")
                 .buildAndExpand(commentId)
                 .toUri();
@@ -70,9 +78,11 @@ public class PostController {
     }
 
     @PostMapping("/{postId}/like")
-    public ResponseEntity<Boolean> operatePostLike(@PathVariable Long postId,
-                                                   @AuthenticationPrincipal AuthenticatedUser authenticatedUser) {
-        boolean response = postService.operatePostLike(postId, authenticatedUser);
+    public ResponseEntity<Boolean> operatePostLike(@AuthenticationPrincipal AuthenticatedUser authenticatedUser,
+                                                   @PathVariable Long postId) {
+        Long userId = authenticatedUser.getUserId();
+
+        boolean response = postService.operatePostLike(userId, postId);
         return ResponseEntity.ok(response);
     }
 
