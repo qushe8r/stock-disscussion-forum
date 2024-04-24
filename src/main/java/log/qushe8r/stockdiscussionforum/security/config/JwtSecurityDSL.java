@@ -17,7 +17,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
@@ -47,7 +46,6 @@ public class JwtSecurityDSL extends AbstractHttpConfigurer<JwtSecurityDSL, HttpS
                 .httpBasic(HttpBasicConfigurer::disable)
                 .headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin))
                 .logout(logout -> logout.logoutSuccessHandler(jwtLogoutHandler).logoutUrl("/api/logout"))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(handler -> handler.authenticationEntryPoint(jwtAuthenticationEntryPoint));
     }
 
