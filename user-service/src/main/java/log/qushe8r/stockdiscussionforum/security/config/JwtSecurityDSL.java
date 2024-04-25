@@ -34,6 +34,7 @@ public class JwtSecurityDSL extends AbstractHttpConfigurer<JwtSecurityDSL, HttpS
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/api/sign-up").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/sign-up/verify").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/sign-in").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/logout").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/users/**").authenticated()

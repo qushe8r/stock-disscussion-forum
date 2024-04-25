@@ -1,7 +1,7 @@
 package log.qushe8r.stockdiscussionforum.security.user;
 
 import io.jsonwebtoken.Claims;
-import log.qushe8r.stockdiscussionforum.user.entity.User;
+import log.qushe8r.stockdiscussionforum.userservice.adapter.out.persistence.UserJpaEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,7 +20,7 @@ public class AuthenticatedUser implements UserDetails {
     private String password;
     private String authority;
 
-    public static AuthenticatedUser toAuthenticatedUser(User user) {
+    public static AuthenticatedUser toAuthenticatedUser(UserJpaEntity user) {
         return new AuthenticatedUser(user.getId(), user.getUsername(), user.getPassword(), user.getRole().toString());
     }
 

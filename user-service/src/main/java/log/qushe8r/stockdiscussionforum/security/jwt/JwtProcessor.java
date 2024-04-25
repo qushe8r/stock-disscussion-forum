@@ -4,7 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import log.qushe8r.stockdiscussionforum.security.user.AuthenticatedUser;
-import log.qushe8r.stockdiscussionforum.user.entity.User;
+import log.qushe8r.stockdiscussionforum.userservice.adapter.out.persistence.UserJpaEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -60,7 +60,7 @@ public class JwtProcessor {
 
     public String generateAccessToken(
             String jti,
-            User user
+            UserJpaEntity user
     ) {
         String subject = user.getUsername();
         Date issuedAt = new Date();
@@ -77,7 +77,7 @@ public class JwtProcessor {
                 .compact();
     }
 
-    private Map<String, String> toClaims(User user) {
+    private Map<String, String> toClaims(UserJpaEntity user) {
         return Map.of(
                 "role", user.getRole().toString(),
                 "userId", String.valueOf(user.getId())
@@ -118,7 +118,7 @@ public class JwtProcessor {
 
     public String generateRefreshToken(
             String jti,
-            User user
+            UserJpaEntity user
     ) {
         String subject = user.getUsername();
         Date now = new Date();
