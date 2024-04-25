@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserJpaEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,4 +39,29 @@ public class UserJpaEntity {
         this.status = status;
         this.role = role;
     }
+
+    public void modify(UserJpaEntity userJpaEntity) {
+        String newNickname = userJpaEntity.getNickname();
+        String newBio = userJpaEntity.getBio();
+        String newProfileImageUrl = userJpaEntity.getProfileImageUrl();
+        UserStatus newStatus = userJpaEntity.getStatus();
+        UserRole newRole = userJpaEntity.getRole();
+
+        if (newNickname != null) {
+            this.nickname = newNickname;
+        }
+        if (newBio != null) {
+            this.bio = newBio;
+        }
+        if (newProfileImageUrl != null) {
+            this.profileImageUrl = newProfileImageUrl;
+        }
+        if (newStatus != null) {
+            this.status = newStatus;
+        }
+        if (newRole != null) {
+            this.role = newRole;
+        }
+    }
+
 }
