@@ -1,7 +1,7 @@
 package log.qushe8r.stockdiscussionforum.userservice.domain.exception;
 
-import log.qushe8r.stockdiscussionforum.common.ApplicationException;
-import log.qushe8r.stockdiscussionforum.common.ExceptionCode;
+import log.qushe8r.stockdiscussionforum.common.exception.ApplicationException;
+import log.qushe8r.stockdiscussionforum.common.exception.ExceptionCode;
 
 public class UserException extends ApplicationException {
 

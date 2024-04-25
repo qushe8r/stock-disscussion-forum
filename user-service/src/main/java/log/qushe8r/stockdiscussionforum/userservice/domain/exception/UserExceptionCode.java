@@ -1,6 +1,6 @@
 package log.qushe8r.stockdiscussionforum.userservice.domain.exception;
 
-import log.qushe8r.stockdiscussionforum.common.ExceptionCode;
+import log.qushe8r.stockdiscussionforum.common.exception.ExceptionCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
