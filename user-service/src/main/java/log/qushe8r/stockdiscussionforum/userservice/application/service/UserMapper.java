@@ -2,11 +2,13 @@ package log.qushe8r.stockdiscussionforum.userservice.application.service;
 
 import log.qushe8r.stockdiscussionforum.userservice.adapter.out.persistence.UserJpaEntity;
 import log.qushe8r.stockdiscussionforum.userservice.application.port.in.UserRegistrationCommand;
+import log.qushe8r.stockdiscussionforum.userservice.application.port.in.UserResponse;
 import log.qushe8r.stockdiscussionforum.userservice.domain.User;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
+
     public User toDomainEntity(UserJpaEntity jpaEntity) {
         return User.create(
                 jpaEntity.getId(),
@@ -34,6 +36,7 @@ public class UserMapper {
 
     public UserJpaEntity toJpaEntity(User user) {
         return new UserJpaEntity(
+                user.getId(),
                 user.getUsername(),
                 user.getNickname(),
                 user.getPassword(),
@@ -43,4 +46,15 @@ public class UserMapper {
                 user.getRole()
         );
     }
+
+    public UserResponse toUserResponse(UserJpaEntity userJpaEntity) {
+        return new UserResponse(
+                userJpaEntity.getId(),
+                userJpaEntity.getUsername(),
+                userJpaEntity.getNickname(),
+                userJpaEntity.getBio(),
+                userJpaEntity.getProfileImageUrl()
+        );
+    }
+
 }
