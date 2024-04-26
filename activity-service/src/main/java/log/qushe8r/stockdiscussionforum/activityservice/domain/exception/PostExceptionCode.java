@@ -8,7 +8,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum PostExceptionCode implements ExceptionCode {
 
-    POST_NOT_FOUND("PX01", 404, "게시글을 찾을 수 없습니다.");
+    POST_NOT_FOUND("PX01", 404, "게시글을 찾을 수 없습니다."),
+    CANNOT_CHANGE_INFORMATION("PX03", 400, "정보 변경을 할 수 없습니다.");
 
     private final String errorCode;
 
