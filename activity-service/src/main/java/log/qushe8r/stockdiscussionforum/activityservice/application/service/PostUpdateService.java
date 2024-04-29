@@ -1,6 +1,6 @@
 package log.qushe8r.stockdiscussionforum.activityservice.application.service;
 
-import log.qushe8r.stockdiscussionforum.activityservice.adapter.out.PostJpaEntity;
+import log.qushe8r.stockdiscussionforum.activityservice.adapter.out.persistence.PostJpaEntity;
 import log.qushe8r.stockdiscussionforum.activityservice.application.port.in.PostUpdateCommand;
 import log.qushe8r.stockdiscussionforum.activityservice.application.port.in.PostUpdateUseCase;
 import log.qushe8r.stockdiscussionforum.activityservice.application.port.out.PostQueryPersistencePort;
