@@ -1,4 +1,4 @@
-package log.qushe8r.stockdiscussionforum.activityservice.adapter.out;
+package log.qushe8r.stockdiscussionforum.activityservice.adapter.out.persistence;
 
 import log.qushe8r.stockdiscussionforum.activityservice.application.port.out.PostUpdatePersistencePort;
 import log.qushe8r.stockdiscussionforum.common.PersistenceAdapter;

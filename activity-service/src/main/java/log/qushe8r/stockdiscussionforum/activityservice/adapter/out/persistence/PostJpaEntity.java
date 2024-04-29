@@ -1,4 +1,4 @@
-package log.qushe8r.stockdiscussionforum.activityservice.adapter.out;
+package log.qushe8r.stockdiscussionforum.activityservice.adapter.out.persistence;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package log.qushe8r.stockdiscussionforum.activityservice.adapter.out;
+package log.qushe8r.stockdiscussionforum.activityservice.adapter.out.persistence;
 
 import log.qushe8r.stockdiscussionforum.activityservice.application.port.out.PostQueryPersistencePort;
 import log.qushe8r.stockdiscussionforum.common.PersistenceAdapter;
@@ -16,4 +16,5 @@ public class PostQueryPersistenceAdapter implements PostQueryPersistencePort {
     public Optional<PostJpaEntity> findById(Long postId) {
         return repository.findById(postId);
     }
+
 }
