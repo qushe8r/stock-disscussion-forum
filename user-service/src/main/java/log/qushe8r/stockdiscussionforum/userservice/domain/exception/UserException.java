@@ -5,7 +5,7 @@ import log.qushe8r.stockdiscussionforum.common.exception.ExceptionCode;
 
 public class UserException extends ApplicationException {
 
-    public UserException(ExceptionCode exceptionCode) {
+    public UserException(UserExceptionCode exceptionCode) {
         super(exceptionCode);
     }
 
