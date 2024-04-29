@@ -89,7 +89,7 @@ cmake-build-*/
 .idea/**/mongoSettings.xml
 
 # File-based project format
-*.iws
+#*.iws
 
 # IntelliJ
 #out/
@@ -238,7 +238,7 @@ $RECYCLE.BIN/
 *.lnk
 
 ### Gradle ###
-.gradle
+#.gradle
 **/build/
 !src/**/build/
 
@@ -256,12 +256,14 @@ gradle-app.setting
 
 # Eclipse Gradle plugin generated files
 # Eclipse Core
-.project
+#.project
 # JDT-specific (Eclipse Java Development Tools)
-.classpath
+#.classpath
 
 ### Gradle Patch ###
 # Java heap dump
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,intellij,java,gradle
+
+db/data
