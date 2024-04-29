@@ -3,21 +3,25 @@ plugins {
     id 'com.palantir.docker' version '0.36.0'
 }
 
-group = 'log.qushe8r.stock-discussion-forum'
+group = 'log.qushe8r.stockdiscussionforum'
 version = '0.0.1-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
+ext {
+    set('springCloudVersion', "2023.0.1")
+}
+
 dependencies {
+    /** Spring Cloud */
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
     /** Spring Web */
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-
-//    /** Spring Security */
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
-//    testImplementation 'org.springframework.security:spring-security-test'
 
     /** Spring Batch */
     // implementation      'org.springframework.boot:spring-boot-starter-batch'
@@ -54,19 +58,19 @@ dependencies {
     /** Utils */
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
-    // implementation      'org.springframework.boot:spring-boot-starter-actuator'
-//    annotationProcessor 'org.projectlombok:lombok'
-//    compileOnly 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-//    /** JSON Web Token */
-//    implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
-//    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
-//    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
 
     implementation project(':common')
 }
 
-test {
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+tasks.named('test') {
     useJUnitPlatform()
 }
 
