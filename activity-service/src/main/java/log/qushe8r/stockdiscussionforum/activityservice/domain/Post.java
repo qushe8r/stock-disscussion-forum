@@ -27,6 +27,15 @@ public class Post {
         );
     }
 
+    public static Post createWithIdOnly(Long postId) {
+        return new Post(postId);
+    }
+
+    private Post(Long id) {
+        this.id = id;
+        this.writer = null;
+    }
+
     public void modify(String title, String content) {
         if (title != null) {
             this.title = title;

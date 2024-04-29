@@ -44,7 +44,7 @@ public class PostMapper {
         Long writerId = postJpaEntity.getWriterId();
         Writer writer = new Writer(writerId, writerIdNickname.get(writerId));
         List<Comment> comments = postJpaEntity.getCommentJpaEntities().stream()
-                .map(commentJpaEntity -> commentMapper.toDomainEntity(commentJpaEntity, writerIdNickname))
+                .map(commentJpaEntity -> commentMapper.toDomainEntityPostWithIdOnly(commentJpaEntity, writerIdNickname))
                 .toList();
 
         return Post.create(postId, title, content, writer, comments);
