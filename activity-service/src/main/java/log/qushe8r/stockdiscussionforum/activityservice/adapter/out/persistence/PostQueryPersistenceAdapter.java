@@ -4,6 +4,7 @@ import log.qushe8r.stockdiscussionforum.activityservice.application.port.out.Pos
 import log.qushe8r.stockdiscussionforum.common.PersistenceAdapter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Optional;
 
 @PersistenceAdapter
@@ -15,6 +16,11 @@ public class PostQueryPersistenceAdapter implements PostQueryPersistencePort {
     @Override
     public Optional<PostJpaEntity> findById(Long postId) {
         return repository.findById(postId);
+    }
+
+    @Override
+    public List<PostJpaEntity> findByWriterId(Long writerId) {
+        return repository.findByWriterId(writerId);
     }
 
 }
