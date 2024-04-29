@@ -1,6 +1,7 @@
 package log.qushe8r.stockdiscussionforum.userservice.application.service;
 
 import log.qushe8r.stockdiscussionforum.userservice.adapter.out.persistence.UserJpaEntity;
+import log.qushe8r.stockdiscussionforum.userservice.application.port.in.UserDetailsResponse;
 import log.qushe8r.stockdiscussionforum.userservice.application.port.in.UserRegistrationCommand;
 import log.qushe8r.stockdiscussionforum.userservice.application.port.in.UserResponse;
 import log.qushe8r.stockdiscussionforum.userservice.domain.User;
@@ -49,6 +50,14 @@ public class UserMapper {
 
     public UserResponse toUserResponse(UserJpaEntity userJpaEntity) {
         return new UserResponse(
+                userJpaEntity.getId(),
+                userJpaEntity.getNickname(),
+                userJpaEntity.getBio()
+        );
+    }
+
+    public UserDetailsResponse toUserDetailsResponse(UserJpaEntity userJpaEntity) {
+        return new UserDetailsResponse(
                 userJpaEntity.getId(),
                 userJpaEntity.getUsername(),
                 userJpaEntity.getNickname(),
