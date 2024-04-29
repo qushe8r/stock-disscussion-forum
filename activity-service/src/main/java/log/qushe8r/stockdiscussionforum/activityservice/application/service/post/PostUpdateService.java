@@ -24,7 +24,7 @@ public class PostUpdateService implements PostUpdateUseCase {
     @Override
     public void updatePost(Long writerId, Long postId, PostUpdateCommand command) {
         Post post = queryPort.findById(postId)
-                .map(mapper::toDomainEntity)
+                .map(mapper::toDomainEntityWriterNicknameNull)
                 .orElseThrow(() -> new PostException(PostExceptionCode.POST_NOT_FOUND));
 
         if (!post.getWriter().id().equals(writerId)) {

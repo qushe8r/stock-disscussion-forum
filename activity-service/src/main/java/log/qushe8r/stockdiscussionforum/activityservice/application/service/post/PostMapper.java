@@ -4,15 +4,22 @@ import log.qushe8r.stockdiscussionforum.activityservice.adapter.out.post.persist
 import log.qushe8r.stockdiscussionforum.activityservice.application.port.in.post.PostDetailsResponse;
 import log.qushe8r.stockdiscussionforum.activityservice.application.port.in.post.PostRegistrationCommand;
 import log.qushe8r.stockdiscussionforum.activityservice.application.port.in.post.PostResponse;
+import log.qushe8r.stockdiscussionforum.activityservice.application.service.comment.CommentMapper;
+import log.qushe8r.stockdiscussionforum.activityservice.domain.Comment;
 import log.qushe8r.stockdiscussionforum.activityservice.domain.Post;
 import log.qushe8r.stockdiscussionforum.activityservice.domain.Writer;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
 @Component
+@RequiredArgsConstructor
 public class PostMapper {
+
+    private final CommentMapper commentMapper;
+
     public PostJpaEntity toJpaEntity(Long writerId, PostRegistrationCommand postRegistrationCommand) {
         String title = postRegistrationCommand.getTitle();
         String content = postRegistrationCommand.getContent();
@@ -20,7 +27,7 @@ public class PostMapper {
         return new PostJpaEntity(title, content, writerId);
     }
 
-    public Post toDomainEntity(PostJpaEntity postJpaEntity) {
+    public Post toDomainEntityWriterNicknameNull(PostJpaEntity postJpaEntity) {
         Long postId = postJpaEntity.getId();
         String title = postJpaEntity.getTitle();
         String content = postJpaEntity.getContent();
@@ -30,23 +37,26 @@ public class PostMapper {
         return Post.create(postId, title, content, writer, null);
     }
 
-    public Post toDomainEntity(PostJpaEntity postJpaEntity, String name) {
+    public Post toDomainEntity(PostJpaEntity postJpaEntity, Map<Long, String> writerIdNickname) {
         Long postId = postJpaEntity.getId();
         String title = postJpaEntity.getTitle();
         String content = postJpaEntity.getContent();
         Long writerId = postJpaEntity.getWriterId();
-        Writer writer = new Writer(writerId, name);
+        Writer writer = new Writer(writerId, writerIdNickname.get(writerId));
+        List<Comment> comments = postJpaEntity.getCommentJpaEntities().stream()
+                .map(commentJpaEntity -> commentMapper.toDomainEntity(commentJpaEntity, writerIdNickname))
+                .toList();
 
-        return Post.create(postId, title, content, writer, null);
+        return Post.create(postId, title, content, writer, comments);
     }
-
 
     public PostJpaEntity toJpaEntity(Post post) {
         return new PostJpaEntity(
                 post.getId(),
                 post.getTitle(),
                 post.getContent(),
-                post.getWriter().id()
+                post.getWriter().id(),
+                commentMapper.toJpaEntities(post.getComments())
         );
     }
 
@@ -55,7 +65,8 @@ public class PostMapper {
                 post.getId(),
                 post.getTitle(),
                 post.getContent(),
-                post.getWriter().name()
+                post.getWriter().name(),
+                commentMapper.toResponses(post.getComments())
         );
     }
 
@@ -73,4 +84,5 @@ public class PostMapper {
                 .map(postJpaEntity -> toResponse(postJpaEntity, userNickname.get(postJpaEntity.getWriterId())))
                 .toList();
     }
+
 }
