@@ -16,10 +16,10 @@ public class UserRegistrationVerificationMailAdapter implements UserRegistration
 
     private final JavaMailSender javaMailSender;
 
-    @Value("${application.domain}")
+    @Value("${gateway.domain}")
     private String domain;
 
-    @Value("${application.port}")
+    @Value("${gateway.port}")
     private String port;
 
     @EventListener
