@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id 'com.palantir.docker' version '0.36.0'
+}
+
+group = 'log.qushe8r.stock-discussion-forum'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springCloudVersion', "2023.0.1")
+}
+
+dependencies {
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+docker {
+    println(tasks.bootJar.outputs.files)
+    name rootProject.name + '-' + project.name + ":" + version
+    dockerfile file('../Dockerfile')
+    files tasks.bootJar.outputs.files
+    buildArgs(['JAR_FILE': tasks.bootJar.outputs.files.singleFile.name])
+}
