@@ -4,5 +4,5 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public record TokenProperties(@Value("${jwt.secret:JWT_SECRET_KEY}") String secret) {
+public record TokenProperties(@Value("${jwt.secret}") String secret) {
 }
