@@ -1,6 +1,5 @@
 package log.qushe8r.stockdiscussionforum.activityservice.application.service.post;
 
-import log.qushe8r.stockdiscussionforum.activityservice.adapter.out.post.persistence.PostJpaEntity;
 import log.qushe8r.stockdiscussionforum.activityservice.application.port.in.post.PostUpdateCommand;
 import log.qushe8r.stockdiscussionforum.activityservice.application.port.in.post.PostUpdateUseCase;
 import log.qushe8r.stockdiscussionforum.activityservice.application.port.out.post.persistence.PostQueryPersistencePort;
@@ -22,21 +21,19 @@ public class PostUpdateService implements PostUpdateUseCase {
 
     @Transactional
     @Override
-    public void updatePost(Long writerId, Long postId, PostUpdateCommand command) {
+    public void updatePost(Long requestingUserId, Long postId, PostUpdateCommand command) {
+        String newTitle = command.getTitle();
+        String newContent = command.getContent();
+
         Post post = queryPort.findById(postId)
                 .map(mapper::toDomainEntityWriterNicknameNull)
                 .orElseThrow(() -> new PostException(PostExceptionCode.POST_NOT_FOUND));
 
-        if (!post.getWriter().id().equals(writerId)) {
-            throw new PostException(PostExceptionCode.CANNOT_CHANGE_INFORMATION);
-        }
+        post.update(requestingUserId, newTitle, newContent, this::updateExecute);
+    }
 
-        String newTitle = command.getTitle();
-        String newContent = command.getContent();
-
-        post.modify(newTitle, newContent);
-        PostJpaEntity postJpaEntity = mapper.toJpaEntity(post);
-        persistencePort.updatePost(postJpaEntity);
+    private void updateExecute(Post post) {
+        persistencePort.updatePost(mapper.toJpaEntity(post));
     }
 
 }
