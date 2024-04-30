@@ -34,7 +34,7 @@ public class PostMapper {
         Long writerId = postJpaEntity.getWriterId();
         Writer writer = new Writer(writerId, null);
 
-        return Post.create(postId, title, content, writer, null);
+        return Post.create(postId, title, content, writer, null, null);
     }
 
     public Post toDomainEntity(PostJpaEntity postJpaEntity, Map<Long, String> writerIdNickname) {
@@ -47,7 +47,7 @@ public class PostMapper {
                 .map(commentJpaEntity -> commentMapper.toDomainEntityPostWithIdOnly(commentJpaEntity, writerIdNickname))
                 .toList();
 
-        return Post.create(postId, title, content, writer, comments);
+        return Post.create(postId, title, content, writer, comments, null);
     }
 
     public PostJpaEntity toJpaEntity(Post post) {
