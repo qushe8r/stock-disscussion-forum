@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Entity
 @Table(name = "comments")
@@ -25,10 +28,17 @@ public class CommentJpaEntity {
     private String content;
     private Long writerId;
 
+    @OneToMany(mappedBy = "commentJpaEntity")
+    private List<CommentLikeJpaEntity> commentLikeJpaEntities = new ArrayList<>();
+
     public CommentJpaEntity(Long postId, String content, Long writerId) {
         this.postJpaEntity = new PostJpaEntity(postId);
         this.content = content;
         this.writerId = writerId;
+    }
+
+    public CommentJpaEntity(Long id) {
+        this.id = id;
     }
 
 }

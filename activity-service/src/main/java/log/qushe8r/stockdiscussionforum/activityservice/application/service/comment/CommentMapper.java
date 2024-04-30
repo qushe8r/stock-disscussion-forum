@@ -21,7 +21,8 @@ public class CommentMapper {
                 comment.getId(),
                 new PostJpaEntity(postId),
                 comment.getContent(),
-                comment.getWriter().id()
+                comment.getWriter().id(),
+                null
         );
     }
 
@@ -39,7 +40,8 @@ public class CommentMapper {
                 commentJpaEntity.getId(),
                 new Writer(writerId, null),
                 Post.createWithIdOnly(postId),
-                commentJpaEntity.getContent()
+                commentJpaEntity.getContent(),
+                null
         );
     }
 
@@ -50,9 +52,10 @@ public class CommentMapper {
 
         return Comment.create(
                 commentJpaEntity.getId(),
-                new Writer(writerId, userIdNickname.get(writerId)),
+                new Writer(writerId, userIdNickname.getOrDefault(writerId, "")),
                 Post.createWithIdOnly(postId),
-                commentJpaEntity.getContent()
+                commentJpaEntity.getContent(),
+                null
         );
     }
 
