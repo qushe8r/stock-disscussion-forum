@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: stock-batch
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${RDBMS_URL}/stock-discuss?allowPublicKeyRetrieval=true&useSSL=false&serverTimezon=Asia/Seoul&characterEncoding=UTF-8
+    username: forum
+    password: discuss
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        default_batch_fetch_size: 1000
+  batch:
+    job:
+      name: ${job.name:NONE}
+      enabled: true
+    jdbc:
+      initialize-schema: always
+
+
+
+
+
