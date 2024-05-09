@@ -6,4 +6,5 @@ include 'common'
 include 'api-gateway'
 include 'eureka'
 include 'stock-batch'
+include 'stock-service'
 
