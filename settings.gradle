@@ -1,1 +1,8 @@
 rootProject.name = 'stock-discussion-forum'
+include 'user-service'
+include 'activity-service'
+include 'newsfeed-service'
+include 'common'
+include 'api-gateway'
+include 'eureka'
+

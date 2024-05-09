@@ -1,8 +1,9 @@
 plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.2.4'
-    id 'io.spring.dependency-management' version '1.1.4'
-    id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id 'java' apply(true)
+    id 'org.springframework.boot' version '3.2.5' apply(true)
+    id 'io.spring.dependency-management' version '1.1.4' apply(true)
+    id 'org.asciidoctor.jvm.convert' version '3.3.2' apply(true)
+    id 'com.diffplug.spotless' version '6.25.0' apply(true)
 }
 
 group = 'log.qushe8r'
@@ -18,74 +19,38 @@ configurations {
     }
 }
 
-repositories {
-    mavenCentral()
-}
+subprojects {
+    apply {
+        plugin 'java'
+        plugin 'org.springframework.boot'
+        plugin 'io.spring.dependency-management'
+        plugin 'org.asciidoctor.jvm.convert'
+        plugin 'com.diffplug.spotless'
+    }
 
-ext {
-    set('snippetsDir', file("build/generated-snippets"))
-}
 
-dependencies {
-    /** Spring Web */
-    implementation      'org.springframework.boot:spring-boot-starter-web'
-    testImplementation  'org.springframework.restdocs:spring-restdocs-mockmvc'
+    repositories {
+        mavenCentral()
+    }
 
-    /** Spring Security */
-    implementation      'org.springframework.boot:spring-boot-starter-security'
-    testImplementation  'org.springframework.security:spring-security-test'
+    ext {
+        set('snippetsDir', file("build/generated-snippets"))
+    }
 
-    /** Spring Batch */
-    // implementation      'org.springframework.boot:spring-boot-starter-batch'
+    dependencies {
+        /** Lombok */
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+    }
 
-    /** Spring Data */
-    implementation      'org.springframework.boot:spring-boot-starter-data-jpa'
-    // implementation      'org.springframework.boot:spring-boot-starter-data-mongodb'
-    implementation      'org.springframework.boot:spring-boot-starter-data-redis'
+    tasks.named('test') {
+        outputs.dir snippetsDir
+        useJUnitPlatform()
+    }
 
-    /** QueryDSL */
-    implementation      'com.querydsl:querydsl-jpa:5.1.0:jakarta'
-    annotationProcessor 'com.querydsl:querydsl-apt:5.1.0:jakarta'
-    annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
-    annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+    tasks.named('asciidoctor') {
+        inputs.dir snippetsDir
+        dependsOn test
+    }
 
-    /** Database */
-    runtimeOnly         'com.mysql:mysql-connector-j'
-
-    /** Message */
-    // implementation      'org.springframework.kafka:spring-kafka'
-
-    /** Test */
-    testImplementation  'org.springframework.boot:spring-boot-starter-test'
-    // testImplementation  'org.springframework.batch:spring-batch-test'
-    // testImplementation  'org.springframework.kafka:spring-kafka-test'
-
-    /** Test Container */
-    testImplementation  'org.springframework.boot:spring-boot-testcontainers'
-    testImplementation  'org.testcontainers:junit-jupiter'
-    testImplementation  'org.testcontainers:mysql'
-    // testImplementation  'org.testcontainers:mongodb'
-    // testImplementation  'org.testcontainers:kafka'
-
-    /** Utils */
-    implementation      'org.springframework.boot:spring-boot-starter-validation'
-    implementation      'org.springframework.boot:spring-boot-starter-mail'
-    // implementation      'org.springframework.boot:spring-boot-starter-actuator'
-    annotationProcessor 'org.projectlombok:lombok'
-    compileOnly         'org.projectlombok:lombok'
-
-    /** JSON Web Token */
-    implementation      'io.jsonwebtoken:jjwt-api:0.12.5'
-    runtimeOnly         'io.jsonwebtoken:jjwt-impl:0.12.5'
-    runtimeOnly         'io.jsonwebtoken:jjwt-jackson:0.12.5'
-}
-
-tasks.named('test') {
-    outputs.dir snippetsDir
-    useJUnitPlatform()
-}
-
-tasks.named('asciidoctor') {
-    inputs.dir snippetsDir
-    dependsOn test
 }

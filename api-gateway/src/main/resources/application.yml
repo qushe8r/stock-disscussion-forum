@@ -1,0 +1,56 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        # ______ AUTH ______
+        # 로그 아웃 -> token 필요함
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/logout
+          filters:
+            - JwtVerificationFilter
+        # 회원 가입, 로그인 -> token 필요 없음
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Method=POST
+            - Path=/api/sign-up/**, /api/sign-in/**
+        # ______ USER _______
+        # 나의 상세 정보 조회 -> token 필요함
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Method=GET
+            - Path=/api/users/me
+          filters:
+            - JwtVerificationFilter
+        # 유저 정보 변경 -> token 필요함
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Method=PATCH,DELETE
+            - Path=/api/users/**
+          filters:
+            - JwtVerificationFilter
+        # 유저 정보 조회 -> token 필요 없음
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Method=GET
+            - Path=/api/users/**
+
+jwt:
+  secret: ${JWT_SECRET}
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
