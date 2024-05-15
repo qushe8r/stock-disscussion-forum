@@ -1,6 +1,6 @@
 package log.qushe8r.stockdiscussionforum.stockbatch.batch.step;
 
-import log.qushe8r.stockdiscussionforum.stockbatch.stock.entity.StockItem;
+import log.qushe8r.stockdiscussionforum.stockbatch.stock.entity.StockItemJpaEntity;
 import log.qushe8r.stockdiscussionforum.stockbatch.stock.repository.StockItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,14 +12,14 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class StockItemReader implements ItemReader<StockItem> {
+public class StockItemReader implements ItemReader<StockItemJpaEntity> {
 
     private final StockItemRepository repository;
 
-    private List<StockItem> list;
+    private List<StockItemJpaEntity> list;
 
     @Override
-    public StockItem read() {
+    public StockItemJpaEntity read() {
         if (list == null) {
             list = repository.findAll();
         }

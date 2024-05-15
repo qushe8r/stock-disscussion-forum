@@ -4,7 +4,7 @@ import jakarta.annotation.Nonnull;
 import log.qushe8r.stockdiscussionforum.stockbatch.client.NaverStockItemClient;
 import log.qushe8r.stockdiscussionforum.stockbatch.client.dto.Page;
 import log.qushe8r.stockdiscussionforum.stockbatch.client.dto.StockItemRecord;
-import log.qushe8r.stockdiscussionforum.stockbatch.stock.entity.StockItem;
+import log.qushe8r.stockdiscussionforum.stockbatch.stock.entity.StockItemJpaEntity;
 import log.qushe8r.stockdiscussionforum.stockbatch.stock.entity.CategoryType;
 import log.qushe8r.stockdiscussionforum.stockbatch.stock.repository.StockItemRepository;
 import lombok.NonNull;
@@ -44,11 +44,11 @@ public class StockItemTasklet implements Tasklet {
         page++;
         Page<StockItemRecord> stockItemRecordPage = client.getStockItems(categoryType.name(), page, pageSize);
 
-        List<StockItem> stockItems = stockItemRecordPage.stocks().stream()
-                .map(stockItemRecord -> new StockItem(stockItemRecord.itemCode(), stockItemRecord.stockName(), categoryType))
+        List<StockItemJpaEntity> stockItemJpaEntities = stockItemRecordPage.stocks().stream()
+                .map(stockItemRecord -> new StockItemJpaEntity(stockItemRecord.itemCode(), stockItemRecord.stockName(), categoryType))
                 .toList();
 
-        repository.saveAll(stockItems);
+        repository.saveAll(stockItemJpaEntities);
 
         if (totalCount == null) {
             totalCount = stockItemRecordPage.totalCount();

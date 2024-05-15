@@ -1,32 +1,59 @@
-#version: "3.9"
 services:
   zookeeper:
-    image: "arm64v8/zookeeper:3.8"
+    image: "confluentinc/cp-zookeeper:latest"
     networks:
       - stock_discussion_forum
     ports:
       - "2181:2181"
     environment:
-      ALLOW_ANONYMOUS_LOGIN: yes
-      ZOO_TLS_CLIENT_AUTH: none
-      ZOO_TLS_QUORUM_CLIENT_AUTH: none
+#      ALLOW_ANONYMOUS_LOGIN: yes
+#      ZOO_TLS_CLIENT_AUTH: none
+#      ZOO_TLS_QUORUM_CLIENT_AUTH: none
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 2181
 
-  kafka:
-    image: "docker.io/bitnami/kafka:3.5"
+  kafka1:
+    image: "confluentinc/cp-kafka:latest"
     networks:
       - stock_discussion_forum
-    ports:
-      - "9092:9092"
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
-      ALLOW_PLAINTEXT_LISTENER: yes
-      KAFKA_CFG_LISTENERS: LC://kafka:29092,LX://kafka:9092
-      KAFKA_CFG_ADVERTISED_LISTENERS: LC://kafka:29092,LX://${DOCKER_HOST_IP:-localhost}:9092
-      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: LC:PLAINTEXT,LX:PLAINTEXT
-      KAFKA_CFG_INTER_BROKER_LISTENER_NAME: LC
     depends_on:
       - zookeeper
+    ports:
+      - "19092:19092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka1:9092,EXTERNAL://localhost:19092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+  kafka2:
+    image: "confluentinc/cp-kafka:latest"
+    networks:
+      - stock_discussion_forum
+    depends_on:
+      - zookeeper
+    ports:
+      - "19093:19093"
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka2:9093,EXTERNAL://localhost:19093
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+  kafka3:
+    image: "confluentinc/cp-kafka:latest"
+    networks:
+      - stock_discussion_forum
+    depends_on:
+      - zookeeper
+    ports:
+      - "19094:19094"
+    environment:
+      KAFKA_BROKER_ID: 3
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka3:9094,EXTERNAL://localhost:19094
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
 
   kafka-ui:
     image: provectuslabs/kafka-ui
@@ -37,11 +64,13 @@ services:
       - "8989:8080"
     restart: always
     depends_on:
-      - kafka
+      - kafka1
+      - kafka2
+      - kafka3
       - zookeeper
     environment:
       KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka1:9092
       KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
 
   mysql:
@@ -133,6 +162,10 @@ services:
       SPRING_CLOUD_GATEWAY_ROUTES[8]_PREDICATES[0]: Method=PATCH,DELETE
       SPRING_CLOUD_GATEWAY_ROUTES[8]_PREDICATES[1]: Path=/api/comments/**
       SPRING_CLOUD_GATEWAY_ROUTES[8]_FILTERS[0]: JwtVerificationFilter
+      SPRING_CLOUD_GATEWAY_ROUTES[9]_ID: stock-service
+      SPRING_CLOUD_GATEWAY_ROUTES[9]_URI: lb://STOCK-SERVICE
+      SPRING_CLOUD_GATEWAY_ROUTES[9]_PREDICATES[0]: Method=POST,GET
+      SPRING_CLOUD_GATEWAY_ROUTES[9]_PREDICATES[1]: Path=/api/stocks/**
       JWT_SECRET: ${JWT_SECRET}
 
   user-service:
@@ -204,6 +237,38 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/stock-discuss?allowPublicKeyRetrieval=true&useSSL=false&serverTimezon=Asia/Seoul&characterEncoding=UTF-8
       SPRING_DATASOURCE_USERNAME: ${RDBMS_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${RDBMS_PASSWORD}
+
+  stock-service:
+    image: stock-discussion-forum-stock-service:0.0.1-SNAPSHOT
+    networks:
+      - stock_discussion_forum
+    ports:
+      - "8083:8080"
+    restart: always
+    depends_on:
+      - mysql
+      - redis
+      - eureka-server
+      - api-gateway
+      - kafka1
+    environment:
+      APPLICATION_PORT: 8080
+      SPRING_APPLICATION_NAME: stock-service
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/stock-discuss?allowPublicKeyRetrieval=true&useSSL=false&serverTimezon=Asia/Seoul&characterEncoding=UTF-8
+      SPRING_DATASOURCE_USERNAME: ${RDBMS_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${RDBMS_PASSWORD}
+      KAFKA_BOOTSTRAPSERVERS: "kafka1:9092,kafka2:9093,kafka3:9094"
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+#      SPRING_KAFKA_BOOTSTRAP_SERVERS[0]: kafka1:9092
+#      SPRING_KAFKA_BOOTSTRAP_SERVERS[1]: kafka2:9093
+#      SPRING_KAFKA_BOOTSTRAP_SERVERS[2]: kafka3:9094
+#      SPRING_CONSUMER_GROUP_ID: stock-service-group
+#      SPRING_CONSUMER_AUTO_OFFSET_RESET: earliest
+#      SPRING_CONSUMER_KEY_DESERIALIZER: org.apache.kafka.common.serialization.StringDeserializer
+#      SPRING_CONSUMER_VALUE_DESERIALIZER: org.apache.kafka.common.serialization.StringDeserializer
+#      SPRING_PRODUCER_KEY_SERIALIZER: org.apache.kafka.common.serialization.StringSerializer
+#      SPRING_PRODUCER_VALUE_SERIALIZER: org.apache.kafka.common.serialization.StringSerializer
 
 networks:
   stock_discussion_forum:
