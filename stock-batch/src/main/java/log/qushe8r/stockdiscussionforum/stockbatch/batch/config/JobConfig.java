@@ -4,8 +4,8 @@ import log.qushe8r.stockdiscussionforum.stockbatch.batch.step.StockDailyRecordWr
 import log.qushe8r.stockdiscussionforum.stockbatch.batch.step.StockItemReader;
 import log.qushe8r.stockdiscussionforum.stockbatch.batch.step.StockItemToStockDailyRecordProcessor;
 import log.qushe8r.stockdiscussionforum.stockbatch.batch.task.StockItemTasklet;
-import log.qushe8r.stockdiscussionforum.stockbatch.stock.entity.StockDailyRecord;
-import log.qushe8r.stockdiscussionforum.stockbatch.stock.entity.StockItem;
+import log.qushe8r.stockdiscussionforum.stockbatch.stock.entity.StockDailyPriceRecordJpaEntity;
+import log.qushe8r.stockdiscussionforum.stockbatch.stock.entity.StockItemJpaEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -50,7 +50,7 @@ public class JobConfig {
     @Bean
     public Step persistStockDailyRecordStep() {
         return new StepBuilder("persistStockDailyRecordStep", jobRepository)
-                .<StockItem, List<StockDailyRecord>>chunk(1, transactionManager)
+                .<StockItemJpaEntity, List<StockDailyPriceRecordJpaEntity>>chunk(1, transactionManager)
                 .reader(stockDailyRecordReader)
                 .processor(stockDailyRecordProcessor)
                 .writer(stockDailyRecordWriter)
