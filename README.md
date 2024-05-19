@@ -1,28 +1,4 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a name="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-
-[//]: # ([![Contributors][contributors-shield]][contributors-url])
-[//]: # ([![Forks][forks-shield]][forks-url])
-[//]: # ([![Stargazers][stars-shield]][stars-url])
-[//]: # ([![Issues][issues-shield]][issues-url])
-[//]: # ([![MIT License][license-shield]][license-url])
-[//]: # ([![LinkedIn][linkedin-shield]][linkedin-url])
 
 <!-- PROJECT LOGO -->
 <br />
@@ -54,24 +30,28 @@
   <summary>목차</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
+      <a href="#프로젝트-설명">프로잭트 설명</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#기술-스택">기술 스택</a></li>
+        <li><a href="#ERD">ERD</a></li>
+        <li><a href="#Docker-Compose">Docker Compose</a></li>
       </ul>
     </li>
     <li>
       <a href="#시작하기">시작하기</a>
       <ul>
-        <li><a href="#사전 준비 사항">사전 준비 사항</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#사전-준비-사항">사전 준비 사항</a></li>
+        <li><a href="#설치-및-실행하기">설치 및 실행하기</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li>
+      <a href="#지표-생성-데이터-흐름">지표 생성 데이터 흐름</a>
+      <ul>
+        <li><a href="#제한-사항">제한 사항 (가정)</a></li>
+        <li><a href="#데이터-흐름도">데이터 흐름도</a></li>
+      </ul>
+    </li>
+    <li><a href="#트러블-슈팅/기술적-의사-결정">트러블 슈팅/기술적 의사 결정</a></li>
   </ol>
 </details>
 
@@ -80,9 +60,6 @@
 <!-- ABOUT THE PROJECT -->
 
 ## 프로젝트 설명
-
-[//]: # ([![Product Name Screen Shot][product-screenshot]]&#40;https://example.com&#41;)
-[//]: # (도커 컴포우즈 배포 이미지)
 
 
 이 프로젝트는 MSA로 구성된 프로젝트입니다.
@@ -93,26 +70,44 @@
 
 <p align="right"><a href="#readme-top">가장 위로 돌아가기</a></p>
 
+### 개발 및 변경 로그
+
+[개발 및 변경 로그](https://pine-pie-554.notion.site/Stock-Disussion-Forum-fca64e638c234d3a829b3c1b71beef64?pvs=4)
+
 ### 기술 스택
+
 [![SpringBoot][SpringBoot]][SpringBootUrl] [![SpringWeb][SpringWeb]][SpringWebUrl] [![SpringSecurity][SpringSecurity]][SpringSecurityUrl] [![SpringDataJPA][SpringDataJPA]][SpringDataJPAUrl] [![SpringBatch][SpringBatch]][SpringBatchUrl]</br>
 [![SpringGateway][SpringGateway]][SpringGatewayUrl] [![SpringEureka][SpringEureka]][SpringEurekaUrl] [![SpringOpenFeign][SpringOpenFeign]][SpringOpenFeignUrl] [![SpringResilience4J][SpringResilience4J]][SpringResilience4JUrl] </br>
 [![Gradle][Gradle]][GradleUrl] </br>
-[![QueryDSL][QueryDSL]][QueryDSLUrl] [![MySQL][MySQL]][MySQLUrl] [![Redis][Redis]][RedisUrl] [![Kafka][Kafka]][KafkaUrl] [![JWT][JWT]][JWTUrl] </br>
+<a href="http://querydsl.com/">
+<img width="112" alt="Screenshot 2024-05-18 at 3 12 39 PM" src="https://github.com/qushe8r/stock-disscussion-forum/assets/115606959/980c7832-98c6-4bf2-9d10-3a599c56881f">
+</a>
+[![MySQL][MySQL]][MySQLUrl] [![Redis][Redis]][RedisUrl]
+<a href="https://kafka.apache.org/documentation/">
+<img width="144" alt="Screenshot 2024-05-18 at 3 31 02 PM" src="https://github.com/qushe8r/stock-disscussion-forum/assets/115606959/3adfe2bd-e9f3-460f-8098-dbf20ebd33a3">
+</a>
+[![JWT][JWT]][JWTUrl] </br>
 [![Docker][Docker]][DockerUrl] [![DockerCompose][DockerCompose]][DockerComposeUrl]
+
+<p align="right"><a href="#readme-top">가장 위로 돌아가기</a></p>
+
+### ERD
+
+<img width="1365" alt="Screenshot 2024-05-19 at 6 20 46 PM" src="https://github.com/qushe8r/stock-disscussion-forum/assets/115606959/67abdaac-e7ff-4434-bfff-623446c90fad">
 
 
 <p align="right"><a href="#readme-top">가장 위로 돌아가기</a></p>
 
-### 도커 컴포우즈
-<img width="1005" alt="도커 컴포우즈" src="https://github.com/qushe8r/stock-disscussion-forum/assets/115606959/2b453f6d-87f3-45c6-b3b5-e93da0900972">
+### Docker Compose
 
+<img width="1005" alt="도커 컴포우즈" src="https://github.com/qushe8r/stock-disscussion-forum/assets/115606959/2b453f6d-87f3-45c6-b3b5-e93da0900972">
 
 <!-- GETTING STARTED -->
 
 ## 시작하기
 
 다음은 로컬에서 프로젝트를 설정하는 방법에 대한 예시입니다.</br>
-로컬에서 프로젝트를 설정하려면 다음 스크립트를 순서에 맞게 실행해주세요. 
+로컬에서 프로젝트를 설정하려면 다음 스크립트를 순서에 맞게 실행해주세요.
 
 ### 사전 준비 사항
 
@@ -120,16 +115,16 @@
 
 ### 설치 및 실행하기
 
-1. 클론 및 이동 
+1. 클론 및 이동
    ```shell
    git clone https://github.com/qushe8r/stock-disscussion-forum.git
    cd stock-disscussion-forum
    ```
-2. 도커 이미지 생성
+2. Docker Image 생성
     ```shell
     ./gradlew docker
     ```
-3. 도커 컴포우즈 실행
+3. Docker Compose 실행
    ```shell
    docker-compose up -d --force-recreate --build
    ```
@@ -140,127 +135,44 @@
 
 <p align="right"><a href="#readme-top">가장 위로 돌아가기</a></p>
 
-
-
-
-<!-- ROADMAP -->
+<!-- Data Flow -->
 
 ## 지표 생성 데이터 흐름
 
+### 제한 사항 (가정)
+
+1. 주식 데이터가 들어오는 상황을 가정 하였습니다.
+    - WebSocket을 사용하여 데이터를 받는 상황일수도, API 콜을 통하여 데이터를 받는 상황일 수도 있을 것입니다.
+    - 크롤링을 제외하면 유료 서비스를 통하여 데이터를 받아야 하는데, 비용 문제 때문에 기존 값 * random(-0.1 ~ 0.1 사이)값을 매 초 발생 시킵니다.
+2. 지표가 필요한 상황을 가정해야 합니다.
+    - 실제 그래프에 지표를 그린다고 가정하면, 사용자가 자신의 기준에 맞는 값을 입력하여야 합니다.
+    - 프로젝트에서 이동 평균선의 기준 날자를 12, 20, 26으로 진행하였지만, 사용자가 자신의 기준에 맞는 값으로 변경, 추가하여 지표를 활용합니다.
+    - 따라서, 추후에 현재 지표를 기준으로 위험을 알려주거나, 추천을 해주는 서비스가 생길 수 있다고 가정할 수 있습니다.
+3. 현재는 실시간 주식 지표가 추후에 이용될 실시간 알림이나 추천 서비스에 사용될 것만을 가정하였기 때문에 Redis에 저장하고 덮어쓰는 방식을 사용 하였습니다.
+    - 이 순간의 지표가 n초 뒤에는 의미가 소멸한다고 생각했습니다.
+
+### 데이터 흐름도
+
 <img width="1667" alt="지표 생성 데이터 흐름" src="https://github.com/qushe8r/stock-disscussion-forum/assets/115606959/9603960d-6759-4bfb-bbce-e25acfa659d8">
 
+**설명**
 
-[//]: # (- [ ] Feature 1)
+1. 배치에서 계산에 필요한 데이터를 미리 준비합니다.
+2. 주식 데이터가 들어오면 이동 평균선을 계산합니다.
+    - 단순 이동 평균선, 지수 이동 평균선을 준비합니다.
+    - 계산된 데이터는 Redis에 저장하고, Kafka로 produce 합니다.
+3. 각 이동 평균선이 필요한 서비스에서 이동 평균선을 consume 합니다.
+    - 볼린저 밴드에는 단순 이동 평균선이 사용되고, MACD에는 지수 이동 평균선이 필요합니다.
+    - 계산된 데이터는 Redis에 저장하고, Kafka로 produce 합니다.
+4. 현재 지수 정보에 대한 조회가 들어오면 Redis에 저장되어 있는 정보로 알려줍니다.
 
-[//]: # (- [ ] Feature 2)
+<p align="right"><a href="#readme-top">가장 위로 돌아가기</a></p>
 
-[//]: # (- [ ] Feature 3)
+## 트러블 슈팅/기술적 의사 결정
 
-[//]: # (    - [ ] Nested Feature)
+작성중입니다.
 
-[//]: # ()
-[//]: # (See the [open issues]&#40;https://github.com/github_username/repo_name/issues&#41; for a full list of proposed features &#40;and)
-
-[//]: # (known issues&#41;.)
-
-[//]: # ()
-[//]: # (<p align="right"><a href="#readme-top">가장 위로 돌아가기</a></p>)
-
-[//]: # ()
-[//]: # (<!-- USAGE EXAMPLES -->)
-
-[//]: # ()
-[//]: # (## Usage)
-
-[//]: # ()
-[//]: # (Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos)
-
-[//]: # (work well in this space. You may also link to more resources.)
-
-[//]: # ()
-[//]: # (_For more examples, please refer to the [Documentation]&#40;https://example.com&#41;_)
-
-[//]: # ()
-[//]: # (<p align="right"><a href="#readme-top">가장 위로 돌아가기</a></p>)
-
-[//]: # ()
-[//]: # (<!-- CONTRIBUTING -->)
-
-[//]: # ()
-[//]: # (## Contributing)
-
-[//]: # ()
-[//]: # (Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any)
-
-[//]: # (contributions you make are **greatly appreciated**.)
-
-[//]: # ()
-[//]: # (If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also)
-
-[//]: # (simply open an issue with the tag "enhancement".)
-
-[//]: # (Don't forget to give the project a star! Thanks again!)
-
-[//]: # ()
-[//]: # (1. Fork the Project)
-
-[//]: # (2. Create your Feature Branch &#40;`git checkout -b feature/AmazingFeature`&#41;)
-
-[//]: # (3. Commit your Changes &#40;`git commit -m 'Add some AmazingFeature'`&#41;)
-
-[//]: # (4. Push to the Branch &#40;`git push origin feature/AmazingFeature`&#41;)
-
-[//]: # (5. Open a Pull Request)
-
-[//]: # ()
-[//]: # (<p align="right"><a href="#readme-top">가장 위로 돌아가기</a></p>)
-
-[//]: # ()
-[//]: # ()
-[//]: # ()
-[//]: # (<!-- LICENSE -->)
-
-[//]: # ()
-[//]: # (## License)
-
-[//]: # ()
-[//]: # (Distributed under the MIT License. See `LICENSE.txt` for more information.)
-
-[//]: # ()
-[//]: # (<p align="right"><a href="#readme-top">가장 위로 돌아가기</a></p>)
-
-[//]: # ()
-[//]: # ()
-[//]: # (<!-- CONTACT -->)
-
-[//]: # ()
-[//]: # (## Contact)
-
-[//]: # ()
-[//]: # (Your Name - [@twitter_handle]&#40;https://twitter.com/twitter_handle&#41; - email@email_client.com)
-
-[//]: # ()
-[//]: # (Project Link: [https://github.com/github_username/repo_name]&#40;https://github.com/github_username/repo_name&#41;)
-
-[//]: # ()
-[//]: # (<p align="right"><a href="#readme-top">가장 위로 돌아가기</a></p>)
-
-[//]: # ()
-[//]: # ()
-[//]: # (<!-- ACKNOWLEDGMENTS -->)
-
-[//]: # ()
-[//]: # (## Acknowledgments)
-
-[//]: # ()
-[//]: # (* []&#40;&#41;)
-
-[//]: # (* []&#40;&#41;)
-
-[//]: # (* []&#40;&#41;)
-
-[//]: # ()
-[//]: # (<p align="right"><a href="#readme-top">가장 위로 돌아가기</a></p>)
+<p align="right"><a href="#readme-top">가장 위로 돌아가기</a></p>
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
@@ -328,7 +240,7 @@
 
 [SpringResilience4JUrl]: https://resilience4j.readme.io/docs/getting-started-3
 
-[QueryDSL]: https://img.shields.io/badge/queryDSL-0769AD?style=for-the-badge&logoColor=61DAFB&logo=data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSIzNDAuMDAwMDAwcHQiIGhlaWdodD0iMzQwLjAwMDAwMHB0IiB2aWV3Qm94PSIwLDAsMjU2LDI1NiI+PGcgZmlsbD0iI2ZmZmZmZiIgZmlsbC1ydWxlPSJub256ZXJvIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIHN0cm9rZS1saW5lam9pbj0ibWl0ZXIiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLWRhc2hhcnJheT0iIiBzdHJva2UtZGFzaG9mZnNldD0iMCIgZm9udC1mYW1pbHk9Im5vbmUiIGZvbnQtd2VpZ2h0PSJub25lIiBmb250LXNpemU9Im5vbmUiIHRleHQtYW5jaG9yPSJub25lIiBzdHlsZT0ibWl4LWJsZW5kLW1vZGU6IG5vcm1hbCI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC40NDgxNCw2LjQwNDEzKSBzY2FsZSgwLjc1Mjk0LDAuNzUyOTQpIj48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLDM0MCkgc2NhbGUoMC4xLC0wLjEpIj48cGF0aCBkPSJNMTE1NCwzMjkxYy02MCwtMTUgLTE0MiwtODYgLTE2OCwtMTQ1Yy0yOCwtNjMgLTQ0LC0xODAgLTI2LC0xOTFjNSwtMyAxMCwtMTUgMTAsLTI1YzAsLTQ0IDkxLC0xNjAgMTI1LC0xNjBjOCwwIDE1LC00IDE1LC0xMGMwLC01IDksLTEwIDE5LC0xMGMxMSwwIDIzLC00IDI2LC0xMGMzLC01IDQ2LC0xMCA5NiwtMTBjNTMsMCA4OSw0IDg5LDEwYzAsNiA3LDEwIDE1LDEwYzQwLDAgMTE4LDcyIDE0NiwxMzRjMjQsNTYgMzcsMTUyIDI2LDE5MWMtMTMsNDMgLTM1LDk0IC00NywxMDhjLTYsNyAtMTgsMjEgLTI4LDMzYy05LDExIC0zOSwzMyAtNjcsNDhjLTQwLDIzIC02NSwyOSAtMTI1LDMyYy00MSwyIC04OSwtMSAtMTA2LC01eiI+PC9wYXRoPjxwYXRoIGQ9Ik0xODUwLDMyODNjLTM3LC0xNiAtMTEwLC04NCAtMTEwLC0xMDJjMCwtNiAtNCwtMTEgLTEwLC0xMWMtNSwwIC0xMCwtMTMgLTEwLC0yOGMwLC0xNSAtNSwtMzMgLTExLC0zOWMtMTUsLTE1IDExLC0xMzMgMzYsLTE1OWMxMSwtMTIgMjgsLTMwIDM3LC00MGM2NiwtNzQgMTc0LC05MiAyNjcsLTQ1YzM2LDE5IDg1LDY4IDEwOSwxMDljMTUsMjYgMTcsMTkyIDIsMTkyYy01LDAgLTEwLDcgLTEwLDE1YzAsMjMgLTY4LDg3IC0xMTMsMTA4Yy00OCwyMSAtMTM4LDIxIC0xODcsMHoiPjwvcGF0aD48cGF0aCBkPSJNMjM5NywyOTg2Yy0xNiwtOSAtNDQsLTMxIC02MywtNTBjLTMyLC0zMiAtMzQsLTM3IC0zNCwtMTA2di03Mmw0NywtNDRjNDUsLTQzIDQ3LC00NCAxMTUsLTQ0YzM5LDAgNjgsNCA2OCwxMGMwLDYgNSwxMCAxMiwxMGMxOSwwIDY4LDYyIDgwLDEwMmM4LDI4IDgsNDggLTIsODJjLTEzLDQ2IC01Miw5NiAtNzYsOTZjLTcsMCAtMTQsNSAtMTYsMTFjLTYsMTkgLTk5LDIyIC0xMzEsNXoiPjwvcGF0aD48cGF0aCBkPSJNNTEwLDI4MzRjLTQyLC05IC0xMDksLTQzIC0xNDAsLTcyYy0xNiwtMTYgLTQzLC01NCAtNjAsLTg2Yy0yNiwtNTEgLTMwLC02OCAtMzAsLTE0MmMwLC03MCA0LC05MyAyNSwtMTM0YzI1LC01MCA4NSwtMTEzIDEyNywtMTM0YzgyLC00MiAyMDgsLTQ3IDI4MCwtMTJjNDUsMjIgMTI4LDk1IDEyOCwxMTNjMCw3IDUsMTMgMTAsMTNjNiwwIDEwLDkgMTAsMjBjMCwxMSA0LDIwIDksMjBjMTIsMCAzMSwxNTMgMjAsMTY1Yy01LDUgLTksMTkgLTksMzJjMCwxMiAtOSwzOSAtMjEsNjBjLTI1LDQ3IC0xMTYsMTMzIC0xNDAsMTMzYy05LDAgLTE5LDQgLTIxLDEwYy0zLDEwIC0xNDksMjEgLTE4OCwxNHoiPjwvcGF0aD48cGF0aCBkPSJNMjc1NSwyNjA2Yy0zNywtMTQgLTQ4LC0yNCAtNjksLTYzYy0yNywtNTMgLTE5LC04OSAyOSwtMTQxYzMyLC0zNSAxMTksLTM2IDE1OCwtMmM0MywzOCA1Miw3MSAzMiwxMjljLTksMzAgLTIzLDUxIC0zMSw1MWMtOCwwIC0xNCw1IC0xNCwxMGMwLDYgLTksMTAgLTE5LDEwYy0xMSwwIC0yMyw1IC0yNiwxMGMtOCwxMiAtMjEsMTEgLTYwLC00eiI+PC9wYXRoPjxwYXRoIGQ9Ik0yOTAzLDIxODJjLTQ5LC01OSAtMTYsLTE0MiA1NiwtMTQyYzgzLDAgMTI0LDY5IDgwLDEzNWMtMjEsMzEgLTI5LDM1IC02OSwzNWMtMzcsMCAtNDksLTUgLTY3LC0yOHoiPjwvcGF0aD48cGF0aCBkPSJNMjczLDIwMDNjLTI5LC0yIC01MywtOCAtNTMsLTE0YzAsLTUgLTksLTkgLTIwLC05Yy0xMSwwIC0yMCwtNCAtMjAsLTEwYzAsLTUgLTcsLTEwIC0xNiwtMTBjLTE3LDAgLTI3LC05IC02NSwtNjBjLTUwLC02OCAtNjEsLTk4IC02MSwtMTgwYzAsLTk1IDIyLC0xNDQgOTMsLTIxMWM2OSwtNjUgMTc3LC05NSAyNTUsLTcwYzE2LDUgNDEsMTIgNTYsMTVjMzIsNyAxMTgsODkgMTM3LDEzMWM3LDE3IDE3LDM4IDIyLDQ3YzEyLDI1IDExLDE3OCAtMSwxNzhjLTUsMCAtMTAsNyAtMTAsMTVjMCw4IC0xNSwzOCAtMzIsNjVjLTU1LDgyIC0xNTYsMTIyIC0yODUsMTEzeiI+PC9wYXRoPjxwYXRoIGQ9Ik0yOTcxLDE4MDNjLTI1LC0zMSAtMjAsLTU4IDE1LC05MGMyMCwtMTkgMjgsLTIwIDU0LC0xMWMzNSwxMiA1MCwzNSA1MCw3NWMwLDM5IC0xNyw1MyAtNjEsNTNjLTI5LDAgLTQzLC02IC01OCwtMjd6Ij48L3BhdGg+PHBhdGggZD0iTTE5MzUsMTYwMWMtNzUsLTE5IC0xNTUsLTk5IC0xNTUsLTE1NWMwLC0xNCAtNSwtMjYgLTExLC0yNmMtMTgsMCA2LC0xMjMgMzAsLTE1M2M4MCwtMTAxIDE2MSwtMTI3IDI3NywtOTJjNjQsMTkgMTA4LDE5IDE0NywtMmMzNywtMTkgNTYsLTQxIDU3LC02NWMwLC0xMCA0LC0xOCA5LC0xOGM2LDAgOSwtNzUgOCwtMTgyYy0xLC0xMzYgMSwtMTgyIDExLC0xODZjNiwtMiAxMiwtMTQgMTIsLTI4YzAsLTIyIDI3LC03OSA1MCwtMTA3YzYsLTcgMjksLTM2IDUyLC02NGMyMywtMjkgNDUsLTUzIDQ4LC01M2M0LDAgMjEsLTEzIDM4LC0zMGMxOCwtMTcgMzksLTMwIDQ3LC0zMGM4LDAgMTUsLTQgMTUsLTEwYzAsLTUgNywtMTAgMTUsLTEwYzgsMCAyMywtNCAzMywtOWM0NiwtMjMgOTUsLTMzIDE4OCwtMzhjODIsLTUgMTA4LC0zIDEzNCwxMWMxOCw5IDQxLDE2IDUyLDE2YzEwLDAgMjYsNCAzNiw5YzksNSAzMSwxNSA0NywyMmMxNyw4IDM5LDIyIDQ5LDMyYzExLDkgMjQsMTcgMjgsMTdjMTEsMCA2Nyw1NyA5NSw5NWM3NiwxMDkgMTA1LDE5NyAxMDMsMzI0Yy0xLDExMyAtMTEsMTY0IC01MiwyNDhjLTY5LDE0MyAtMjY0LDI4MyAtMzk0LDI4M2MtMTgsMCAtMzYsNSAtMzksMTBjLTMsNiAtMTksMTAgLTM2LDEwYy0xNiwwIC0yOSwtNCAtMjksLTEwYzAsLTUgLTE5LC0xMCAtNDIsLTEwYy02OCwwIC0xNjgsLTQwIC0yODgsLTExNWMtNDUsLTI4IC02NSwtMzQgLTExMSwtMzVjLTUwLDAgLTU4LDMgLTg5LDM1Yy0zNSwzNiAtNjAsOTIgLTYwLDEzNmMwLDI4IC0yMSw3OSAtMzIsNzljLTUsMCAtOCw2IC04LDEzYzAsMTYgLTM4LDUwIC04MCw3MmMtMzcsMTkgLTExMywyNyAtMTU1LDE2eiI+PC9wYXRoPjxwYXRoIGQ9Ik01MDAsMTIwMGMwLC01IC05LC0xMCAtMjAsLTEwYy0yMSwwIC0zNSwtOSAtNzMsLTQ2Yy0zNiwtMzQgLTU3LC02MyAtNTcsLTc5YzAsLTcgLTQsLTE3IC0xMCwtMjBjLTIzLC0xNCAtMywtMTg1IDIyLC0xODVjNCwwIDgsLTYgOCwtMTJjMCwtMjAgNDUsLTY4IDY0LC02OGM5LDAgMTYsLTQgMTYsLTEwYzAsLTUgOSwtMTAgMTksLTEwYzExLDAgMjMsLTQgMjYsLTEwYzgsLTEzIDEzMiwtMTMgMTQwLDBjMyw2IDE1LDEwIDI2LDEwYzMxLDAgMTEyLDg4IDEyNywxMzdjMzIsMTEwIC0yLDIwNyAtOTUsMjcxYy0xNywxMiAtMzgsMjIgLTQ3LDIyYy05LDAgLTE2LDUgLTE2LDEwYzAsNiAtMjgsMTAgLTY1LDEwYy0zNywwIC02NSwtNCAtNjUsLTEweiI+PC9wYXRoPjxwYXRoIGQ9Ik05OTAsNzAwYzAsLTUgLTcsLTEwIC0xNSwtMTBjLTE4LDAgLTUzLC0zMyAtNzQsLTcxYy0xNywtMjkgLTE2LC0xMzAgMSwtMTYxYzIwLC0zNCA1NiwtNjggNzIsLTY4YzgsMCAxOCwtNCAyMSwtMTBjOSwtMTUgOTgsLTEyIDEzMiw1YzE2LDggNDIsMjggNTcsNDVjODAsOTEgNTUsMjAzIC02MSwyNjhjLTI3LDE0IC0xMzMsMTYgLTEzMywyeiI+PC9wYXRoPjxwYXRoIGQ9Ik0xNDg1LDUwNWMtNDIsLTIxIC01NiwtNDggLTU3LC0xMDVjMCwtODQgNjAsLTEzOSAxMzcsLTEyN2MzOSw2IDg0LDM2IDg1LDU1YzAsNiA1LDEyIDEwLDEyYzYsMCAxMCwyNCAxMCw1M2MwLDQzIC01LDU4IC0yOSw4NmMtMjQsMjggLTM3LDM0IC03NywzOGMtMzIsMiAtNjAsLTIgLTc5LC0xMnoiPjwvcGF0aD48cGF0aCBkPSJNMTk1Miw1MDVjLTU2LC0yNSAtNjcsLTEwNiAtMjAsLTE0NmMyOSwtMjYgOTgsLTI2IDEyMCwwYzM0LDQwIDQwLDYxIDI4LDkxYy0yNCw1OCAtNzMsNzkgLTEyOCw1NXoiPjwvcGF0aD48L2c+PC9nPjwvZz48L3N2Zz4=
+[QueryDSL]: https://github.com/qushe8r/stock-disscussion-forum/assets/115606959/980c7832-98c6-4bf2-9d10-3a599c56881f
 
 [QueryDSLUrl]: http://querydsl.com/
 
