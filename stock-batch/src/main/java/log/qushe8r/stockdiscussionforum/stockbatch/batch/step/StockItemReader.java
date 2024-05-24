@@ -23,7 +23,11 @@ public class StockItemReader implements ItemReader<StockItemJpaEntity> {
         if (list == null) {
             list = repository.findAll();
         }
-        return !this.list.isEmpty() ? this.list.removeFirst() : null;
+        if (this.list.isEmpty()) {
+            this.list = null;
+            return null;
+        }
+        return this.list.removeFirst();
     }
 
 }
