@@ -8,4 +8,6 @@ public interface StockPriceTickerTestKafkaProducerPort {
 
     void produce(List<StockPriceTicker> list);
 
+    void produce(StockPriceTicker stockPriceTicker);
+
 }

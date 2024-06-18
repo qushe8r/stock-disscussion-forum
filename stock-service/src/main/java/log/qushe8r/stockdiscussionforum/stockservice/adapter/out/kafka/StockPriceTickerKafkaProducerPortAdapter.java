@@ -19,4 +19,9 @@ public class StockPriceTickerKafkaProducerPortAdapter implements StockPriceTicke
         stockPriceTickers.forEach(stockPriceTicker -> stockPriceTickerKafkaTemplate.send("stock_price_ticker", stockPriceTicker));
     }
 
+    @Override
+    public void produce(StockPriceTicker stockPriceTicker) {
+        stockPriceTickerKafkaTemplate.send("stock_price_ticker", stockPriceTicker);
+    }
+
 }
