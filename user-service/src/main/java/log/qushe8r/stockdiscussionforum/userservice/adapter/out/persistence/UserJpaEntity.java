@@ -9,59 +9,72 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@Table(name = "us_users")
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserJpaEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id", unique = true, nullable = false, updatable = false)
+	private Long id;
 
-    @Column(unique = true)
-    private String username;
-    private String nickname;
-    private String password;
-    private String bio;
-    private String profileImageUrl;
+	@Column(name = "username", unique = true, nullable = false)
+	private String username;
 
-    @Enumerated(EnumType.STRING)
-    private UserStatus status;
+	@Column(name = "nickname", nullable = false, length = 16)
+	private String nickname;
 
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
+	@Column(name = "password", nullable = false)
+	private String password;
 
-    public UserJpaEntity(String username, String nickname, String password, String bio, String profileImageUrl, UserStatus status, UserRole role) {
-        this.username = username;
-        this.nickname = nickname;
-        this.password = password;
-        this.bio = bio;
-        this.profileImageUrl = profileImageUrl;
-        this.status = status;
-        this.role = role;
-    }
+	@Column(name = "bio", columnDefinition = "Text")
+	private String bio;
 
-    public void modify(UserJpaEntity userJpaEntity) {
-        String newNickname = userJpaEntity.getNickname();
-        String newBio = userJpaEntity.getBio();
-        String newProfileImageUrl = userJpaEntity.getProfileImageUrl();
-        UserStatus newStatus = userJpaEntity.getStatus();
-        UserRole newRole = userJpaEntity.getRole();
+	@Column(name = "profile_img_url", length = 128)
+	private String profileImageUrl;
 
-        if (newNickname != null) {
-            this.nickname = newNickname;
-        }
-        if (newBio != null) {
-            this.bio = newBio;
-        }
-        if (newProfileImageUrl != null) {
-            this.profileImageUrl = newProfileImageUrl;
-        }
-        if (newStatus != null) {
-            this.status = newStatus;
-        }
-        if (newRole != null) {
-            this.role = newRole;
-        }
-    }
+	@Enumerated(EnumType.STRING)
+	@Column(name = "user_status", nullable = false, length = 16)
+	private UserStatus status;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "user_role", nullable = false, length = 16)
+	private UserRole role;
+
+	public UserJpaEntity(String username, String nickname, String password, String bio, String profileImageUrl,
+		UserStatus status, UserRole role) {
+		this.username = username;
+		this.nickname = nickname;
+		this.password = password;
+		this.bio = bio;
+		this.profileImageUrl = profileImageUrl;
+		this.status = status;
+		this.role = role;
+	}
+
+	public void modify(UserJpaEntity userJpaEntity) {
+		String newNickname = userJpaEntity.getNickname();
+		String newBio = userJpaEntity.getBio();
+		String newProfileImageUrl = userJpaEntity.getProfileImageUrl();
+		UserStatus newStatus = userJpaEntity.getStatus();
+		UserRole newRole = userJpaEntity.getRole();
+
+		if (newNickname != null) {
+			this.nickname = newNickname;
+		}
+		if (newBio != null) {
+			this.bio = newBio;
+		}
+		if (newProfileImageUrl != null) {
+			this.profileImageUrl = newProfileImageUrl;
+		}
+		if (newStatus != null) {
+			this.status = newStatus;
+		}
+		if (newRole != null) {
+			this.role = newRole;
+		}
+	}
 
 }
