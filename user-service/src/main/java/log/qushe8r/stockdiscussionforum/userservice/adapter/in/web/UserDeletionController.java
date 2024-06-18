@@ -16,10 +16,9 @@ public class UserDeletionController {
 
     private final UserDeletionUseCase useCase;
 
-    @DeleteMapping(path = "/{requestedUserId}")
-    public ResponseEntity<Void> deleteById(@RequestHeader(name = "userId") Long requestingUserId,
-                                           @PathVariable Long requestedUserId) {
-        useCase.deleteUser(requestingUserId, requestedUserId);
+    @DeleteMapping(path = "/me")
+    public ResponseEntity<Void> deleteById(@RequestHeader(name = "userId") Long requestingUserId) {
+        useCase.deleteUser(requestingUserId);
         return ResponseEntity.ok().build();
     }
 

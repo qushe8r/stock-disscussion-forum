@@ -22,9 +22,10 @@ public class UserRetrievalController {
     private final UserRetrievalUseCase useCase;
 
     @GetMapping("/me")
-    public ResponseEntity<UserDetailsResponse> retrieveSelfDetails(@RequestHeader(name = "userId") String requestHeaderUserId) {
+    public ResponseEntity<UserDetailsResponse> retrieveSelfDetails(
+            @RequestHeader(name = "userId") String requestHeaderUserId
+    ) {
         Long userId = Long.parseLong(requestHeaderUserId);
-
         UserDetailsResponse userResponse = useCase.retrieveSelfDetails(userId);
         return ResponseEntity.ok(userResponse);
     }
@@ -37,8 +38,10 @@ public class UserRetrievalController {
     }
 
     @GetMapping
-    public ResponseEntity<UserResponse> retrieveUserByUsername(@RequestParam("username") String username) {
-        UserResponse userResponse = useCase.retrieveUserByUsername(username);
+    public ResponseEntity<UserResponse> retrieveUserByUsername(
+            @RequestParam(name = "email", required = false) String email
+    ) {
+        UserResponse userResponse = useCase.retrieveUserByUsername(email);
         return ResponseEntity.ok(userResponse);
     }
 

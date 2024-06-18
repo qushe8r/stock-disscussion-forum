@@ -14,11 +14,8 @@ public class UserDeletionService implements UserDeletionUseCase {
     private final UserDeletionCommandPort commandPort;
 
     @Override
-    public void deleteUser(Long requestingUserId, Long requestedUserId) {
-        if (!requestedUserId.equals(requestingUserId)) {
-            throw new UserException(UserExceptionCode.CANNOT_CHANGE_INFORMATION);
-        }
-        commandPort.deleteById(requestedUserId);
+    public void deleteUser(Long requestingUserId) {
+        commandPort.deleteById(requestingUserId);
     }
 
 }
