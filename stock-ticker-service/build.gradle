@@ -31,7 +31,7 @@ dependencies {
     /** Spring Data */
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     // implementation      'org.springframework.boot:spring-boot-starter-data-mongodb'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    // implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     /** QueryDSL */
     implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'
@@ -43,7 +43,7 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
 
     /** Message */
-    implementation      'org.springframework.kafka:spring-kafka'
+    // implementation      'org.springframework.kafka:spring-kafka'
 
     /** Test */
      testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -59,7 +59,7 @@ dependencies {
 
     /** Utils */
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    // implementation 'org.springframework.boot:spring-boot-starter-mail'
     // implementation      'org.springframework.boot:spring-boot-starter-actuator'
 
     implementation project(':common')
