@@ -7,4 +7,5 @@ include 'api-gateway'
 include 'eureka'
 include 'stock-batch'
 include 'stock-service'
+include 'stock-ticker-service'
 

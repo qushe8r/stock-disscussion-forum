@@ -46,13 +46,13 @@ dependencies {
     implementation      'org.springframework.kafka:spring-kafka'
 
     /** Test */
-    // testImplementation 'org.springframework.boot:spring-boot-starter-test'
+     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     // testImplementation  'org.springframework.batch:spring-batch-test'
     // testImplementation  'org.springframework.kafka:spring-kafka-test'
 
     /** Test Container */
     // testImplementation 'org.springframework.boot:spring-boot-testcontainers'
-    // testImplementation 'org.testcontainers:junit-jupiter'
+     testImplementation 'org.testcontainers:junit-jupiter'
     // testImplementation 'org.testcontainers:mysql'
     // testImplementation  'org.testcontainers:mongodb'
     // testImplementation  'org.testcontainers:kafka'
