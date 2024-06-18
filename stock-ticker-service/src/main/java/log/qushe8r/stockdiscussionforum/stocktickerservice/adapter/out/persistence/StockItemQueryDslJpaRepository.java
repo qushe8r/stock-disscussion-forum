@@ -3,5 +3,5 @@ package log.qushe8r.stockdiscussionforum.stocktickerservice.adapter.out.persiste
 import java.util.List;
 
 public interface StockItemQueryDslJpaRepository {
-	List<StockItemJpaEntity> query();
+	List<StockItemJpaEntity> findAllStockItemsWhenLastBisinessDay();
 }

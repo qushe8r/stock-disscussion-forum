@@ -18,7 +18,7 @@ public class StockItemQueryDslJpaRepositoryImpl implements StockItemQueryDslJpaR
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<StockItemJpaEntity> query() {
+    public List<StockItemJpaEntity> findAllStockItemsWhenLastBisinessDay() {
         LocalDate lastBusinessDay = LocalDate.now().minusDays(2);
         int value = lastBusinessDay.getDayOfWeek().getValue();
         if (lastBusinessDay.getDayOfWeek().getValue() >= 6) {
