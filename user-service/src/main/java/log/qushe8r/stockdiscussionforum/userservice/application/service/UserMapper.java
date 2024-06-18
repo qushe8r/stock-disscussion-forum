@@ -62,7 +62,9 @@ public class UserMapper {
                 userJpaEntity.getUsername(),
                 userJpaEntity.getNickname(),
                 userJpaEntity.getBio(),
-                userJpaEntity.getProfileImageUrl()
+                userJpaEntity.getProfileImageUrl(),
+                userJpaEntity.getStatus(),
+                userJpaEntity.getRole()
         );
     }
 
