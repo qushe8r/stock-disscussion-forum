@@ -251,6 +251,7 @@ services:
       - eureka-server
       - api-gateway
       - kafka1
+      - stock-ticker-service
     environment:
       APPLICATION_PORT: 8080
       SPRING_APPLICATION_NAME: stock-service
@@ -269,6 +270,26 @@ services:
 #      SPRING_CONSUMER_VALUE_DESERIALIZER: org.apache.kafka.common.serialization.StringDeserializer
 #      SPRING_PRODUCER_KEY_SERIALIZER: org.apache.kafka.common.serialization.StringSerializer
 #      SPRING_PRODUCER_VALUE_SERIALIZER: org.apache.kafka.common.serialization.StringSerializer
+
+  stock-ticker-service:
+    image: stock-discussion-forum-stock-ticker-service:0.0.1-SNAPSHOT
+    networks:
+      - stock_discussion_forum
+    ports:
+      - "8085:8080"
+    restart: always
+    depends_on:
+      - mysql
+      - redis
+      - eureka-server
+      - api-gateway
+      - kafka1
+    environment:
+      SERVER_PORT: 8080
+      SPRING_APPLICATION_NAME: stock-ticker-service
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/stock-discuss?allowPublicKeyRetrieval=true&useSSL=false&serverTimezon=Asia/Seoul&characterEncoding=UTF-8
+      SPRING_DATASOURCE_USERNAME: ${RDBMS_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${RDBMS_PASSWORD}
 
 networks:
   stock_discussion_forum:
