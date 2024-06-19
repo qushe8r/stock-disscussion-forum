@@ -12,23 +12,27 @@ import java.util.List;
 
 @Getter
 @Entity
-@Table(name = "comments")
+@Table(name = "as_comments")
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CommentJpaEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id", unique = true, nullable = false)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "post_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id", nullable = false)
     private PostJpaEntity postJpaEntity;
 
+    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
+
+    @Column(name = "comment_writer_id", nullable = false)
     private Long writerId;
 
-    @OneToMany(mappedBy = "commentJpaEntity")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "commentJpaEntity", orphanRemoval = true)
     private List<CommentLikeJpaEntity> commentLikeJpaEntities = new ArrayList<>();
 
     public CommentJpaEntity(Long postId, String content, Long writerId) {
