@@ -1,9 +1,9 @@
 package log.qushe8r.stockdiscussionforum.activityservice.application.service.comment;
 
 import log.qushe8r.stockdiscussionforum.activityservice.adapter.out.comment.persistence.CommentJpaEntity;
-import log.qushe8r.stockdiscussionforum.activityservice.adapter.out.comment.persistence.CommentQueryPersistencePort;
 import log.qushe8r.stockdiscussionforum.activityservice.application.port.in.comment.CommentUpdateCommand;
 import log.qushe8r.stockdiscussionforum.activityservice.application.port.in.comment.CommentUpdateUseCase;
+import log.qushe8r.stockdiscussionforum.activityservice.application.port.out.comment.persistence.CommentQueryPersistencePort;
 import log.qushe8r.stockdiscussionforum.activityservice.application.port.out.comment.persistence.CommentUpdatePersistencePort;
 import log.qushe8r.stockdiscussionforum.activityservice.domain.Comment;
 import log.qushe8r.stockdiscussionforum.activityservice.domain.exception.CommentException;
