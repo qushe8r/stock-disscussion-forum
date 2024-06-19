@@ -3,5 +3,5 @@ package log.qushe8r.stockdiscussionforum.activityservice.adapter.out.comment.per
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CommentLikeJpaRepository extends JpaRepository<CommentLikeJpaEntity, Long> {
-    void deleteByWriterIdAndCommentJpaEntityId(Long requestingUserId, Long commentId);
+    void deleteByUserIdAndCommentJpaEntityId(Long requestingUserId, Long commentId);
 }

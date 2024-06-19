@@ -18,7 +18,7 @@ public class CommentLikeOperationPersistenceAdapter implements CommentLikeOperat
 
     @Override
     public void unLikePostByRequestingUser(Long requestingUserId, Long commentId) {
-        repository.deleteByWriterIdAndCommentJpaEntityId(requestingUserId, commentId);
+        repository.deleteByUserIdAndCommentJpaEntityId(requestingUserId, commentId);
     }
 
 }

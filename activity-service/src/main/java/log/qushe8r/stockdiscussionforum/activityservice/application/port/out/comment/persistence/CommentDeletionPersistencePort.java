@@ -1,4 +1,4 @@
-package log.qushe8r.stockdiscussionforum.activityservice.adapter.out.comment.persistence;
+package log.qushe8r.stockdiscussionforum.activityservice.application.port.out.comment.persistence;
 
 public interface CommentDeletionPersistencePort {
 
