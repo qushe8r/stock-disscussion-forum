@@ -67,5 +67,4 @@ public class JwtSecurityDSL extends AbstractHttpConfigurer<JwtSecurityDSL, HttpS
                 jwtAuthenticationEntryPoint, jwtAuthenticationFailureHandler);
     }
 
-
 }
