@@ -19,7 +19,7 @@ public class UserJpaEntity {
 	@Column(name = "user_id", unique = true, nullable = false, updatable = false)
 	private Long id;
 
-	@Column(name = "username", unique = true, nullable = false)
+	@Column(name = "username", unique = true, nullable = false, length = 32)
 	private String username;
 
 	@Column(name = "nickname", nullable = false, length = 16)
