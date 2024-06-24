@@ -15,7 +15,7 @@ public class CommentLikeOperationWebAdapter {
     private final CommentLikeOperationUseCase useCase;
 
     @PostMapping("/{commentId}/likes")
-    public ResponseEntity<Boolean> operateCommnetLike(@RequestHeader("userId") Long requestingUserId,
+    public ResponseEntity<Boolean> operateCommentLike(@RequestHeader("userId") Long requestingUserId,
                                                       @PathVariable Long commentId) {
         boolean response = useCase.operateCommentLike(requestingUserId, commentId);
         return ResponseEntity.ok(response);

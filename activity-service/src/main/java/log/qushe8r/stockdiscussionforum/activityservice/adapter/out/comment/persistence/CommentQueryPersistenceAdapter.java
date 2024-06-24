@@ -16,4 +16,10 @@ public class CommentQueryPersistenceAdapter implements CommentQueryPersistencePo
     public Optional<CommentJpaEntity> findById(Long commentId) {
         return repository.findById(commentId);
     }
+
+    @Override
+    public Optional<CommentJpaEntity> findByIdWithCommentLike(Long commentId) {
+        return repository.findByIdWithCommentLike(commentId);
+    }
+
 }

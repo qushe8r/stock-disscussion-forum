@@ -8,4 +8,6 @@ public interface CommentQueryPersistencePort {
 
     Optional<CommentJpaEntity> findById(Long commentId);
 
+    Optional<CommentJpaEntity> findByIdWithCommentLike(Long commentId);
+
 }
