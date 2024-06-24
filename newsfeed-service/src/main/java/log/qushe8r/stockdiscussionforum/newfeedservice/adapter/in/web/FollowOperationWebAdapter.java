@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @WebAdapter
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/follow")
+@RequestMapping("/api/follows")
 public class FollowOperationWebAdapter {
 
     private final FollowOperationUseCase useCase;
