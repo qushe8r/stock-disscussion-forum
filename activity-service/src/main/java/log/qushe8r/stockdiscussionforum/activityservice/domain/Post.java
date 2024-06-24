@@ -74,11 +74,11 @@ public class Post {
             throw new PostException(PostExceptionCode.CANNOT_POST_LIKE_SELF);
         }
         if (this.postLike.likeByMe()) {
-            likePostFunction.accept(requestingUserId, this.id);
-            return true;
+            unlikePostFunction.accept(requestingUserId, this.id);
+            return false;
         }
-        unlikePostFunction.accept(requestingUserId, this.id);
-        return false;
+        likePostFunction.accept(requestingUserId, this.id);
+        return true;
     }
 
     public boolean confirmOtherUser(Long requestingUserId) {
