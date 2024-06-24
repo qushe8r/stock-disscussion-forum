@@ -4,6 +4,6 @@ import log.qushe8r.stockdiscussionforum.activityservice.application.port.in.post
 
 public interface PostRegistrationPersistencePort {
 
-    void registerPost(Long writerId, PostRegistrationCommand postRegistrationCommand);
+    Long registerPost(Long writerId, PostRegistrationCommand postRegistrationCommand);
 
 }

@@ -14,9 +14,10 @@ public class PostRegistrationPersistenceAdapter implements PostRegistrationPersi
     private final PostJpaRepository repository;
 
     @Override
-    public void registerPost(Long writerId, PostRegistrationCommand postRegistrationCommand) {
+    public Long registerPost(Long writerId, PostRegistrationCommand postRegistrationCommand) {
         PostJpaEntity postJpaEntity = mapper.toJpaEntity(writerId, postRegistrationCommand);
-        repository.save(postJpaEntity);
+        PostJpaEntity saved = repository.save(postJpaEntity);
+        return saved.getId();
     }
 
 }
