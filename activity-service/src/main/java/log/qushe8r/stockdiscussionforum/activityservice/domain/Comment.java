@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -34,35 +35,33 @@ public class Comment {
         }
     }
 
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", writer=" + writer +
-                ", content='" + content + '\'' +
-                '}';
+    public void delete(Long requestingUserId, Consumer<Long> deleteAction) {
+        if (this.writer.id().equals(requestingUserId)) {
+            throw new CommentException(CommentExceptionCode.CANNOT_CHANGE_INFORMATION);
+        }
+        deleteAction.accept(this.id);
     }
 
     // 자신의 댓글에는 좋아요를 할 수 없다.
-    public boolean togglePostLikeForRequestingUser(Long requestingUserId,
-                                                   BiConsumer<Long, Long> likePostFunction,
-                                                   BiConsumer<Long, Long> unlikePostFunction) {
+    public boolean toggleCommentLikeForRequestingUser(Long requestingUserId,
+													  BiConsumer<Long, Long> likePostFunction,
+													  BiConsumer<Long, Long> unlikePostFunction) {
         if (confirmOtherUser(requestingUserId)) {
             throw new PostException(PostExceptionCode.CANNOT_POST_LIKE_SELF);
         }
         if (this.commentLike.likeByRequestingUser()) {
             // 좋아요 버튼 누르기
-            likePostFunction.accept(requestingUserId, this.id);
-            return true;
+            unlikePostFunction.accept(requestingUserId, this.id);
+            return false;
         }
         // 좋아요 버튼 취소하기
-        unlikePostFunction.accept(requestingUserId, this.id);
-        return false;
+        likePostFunction.accept(requestingUserId, this.id);
+        return true;
     }
 
     public boolean confirmOtherUser(Long requestingUserId) {
         assert this.writer != null;
-        return !requestingUserId.equals(this.writer.id());
+        return requestingUserId.equals(this.writer.id());
     }
 
 }
