@@ -1,9 +1,11 @@
 package log.qushe8r.stockdiscussionforum.activityservice.application.service.comment;
 
 import log.qushe8r.stockdiscussionforum.activityservice.adapter.out.comment.persistence.CommentJpaEntity;
+import log.qushe8r.stockdiscussionforum.activityservice.adapter.out.comment.persistence.CommentLikeJpaEntity;
 import log.qushe8r.stockdiscussionforum.activityservice.adapter.out.post.persistence.PostJpaEntity;
 import log.qushe8r.stockdiscussionforum.activityservice.application.port.in.post.CommentResponse;
 import log.qushe8r.stockdiscussionforum.activityservice.domain.Comment;
+import log.qushe8r.stockdiscussionforum.activityservice.domain.CommentLike;
 import log.qushe8r.stockdiscussionforum.activityservice.domain.Post;
 import log.qushe8r.stockdiscussionforum.activityservice.domain.Writer;
 import org.springframework.stereotype.Component;
@@ -56,6 +58,22 @@ public class CommentMapper {
                 Post.createWithIdOnly(postId),
                 commentJpaEntity.getContent(),
                 null
+        );
+    }
+
+    public Comment toDomainEntityWithCommentLikeOnly(Long requestingUserId, CommentJpaEntity commentJpaEntity) {
+        Long writerId = commentJpaEntity.getWriterId();
+        long commentLikeCount = commentJpaEntity.getCommentLikeJpaEntities().size();
+        boolean didLikeByRequestingUser = commentJpaEntity.getCommentLikeJpaEntities().stream()
+                .map(CommentLikeJpaEntity::getUserId)
+                .anyMatch(userId -> userId.equals(requestingUserId));
+
+        return Comment.create(
+            commentJpaEntity.getId(),
+            new Writer(writerId, null),
+            null,
+            commentJpaEntity.getContent(),
+            new CommentLike(commentLikeCount, didLikeByRequestingUser)
         );
     }
 
