@@ -19,6 +19,11 @@ public class PostQueryPersistenceAdapter implements PostQueryPersistencePort {
     }
 
     @Override
+    public Optional<PostJpaEntity> findWithPostLike(Long postId) {
+        return repository.findWithPostLike(postId);
+    }
+
+    @Override
     public List<PostJpaEntity> findByWriterId(Long writerId) {
         return repository.findByWriterId(writerId);
     }

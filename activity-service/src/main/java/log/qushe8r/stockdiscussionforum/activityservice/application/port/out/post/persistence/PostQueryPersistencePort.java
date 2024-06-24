@@ -9,6 +9,8 @@ public interface PostQueryPersistencePort {
 
     Optional<PostJpaEntity> findById(Long postId);
 
+    Optional<PostJpaEntity> findWithPostLike(Long postId);
+
     List<PostJpaEntity> findByWriterId(Long writerId);
 
 }
