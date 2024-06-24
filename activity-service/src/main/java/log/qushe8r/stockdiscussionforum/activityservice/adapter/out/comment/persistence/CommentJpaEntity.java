@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Entity
@@ -32,7 +33,7 @@ public class CommentJpaEntity {
     @Column(name = "comment_writer_id", nullable = false)
     private Long writerId;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "commentJpaEntity", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "commentJpaEntity")
     private List<CommentLikeJpaEntity> commentLikeJpaEntities = new ArrayList<>();
 
     public CommentJpaEntity(Long postId, String content, Long writerId) {
@@ -45,4 +46,9 @@ public class CommentJpaEntity {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "id: " + id + ", content: " + content + ", writerId: " + writerId + ", commentLikeJpaEntities: " + commentLikeJpaEntities.stream().map(
+				Object::toString).collect(Collectors.joining());
+        }
 }
