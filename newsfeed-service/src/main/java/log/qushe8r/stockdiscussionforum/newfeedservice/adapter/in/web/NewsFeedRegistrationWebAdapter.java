@@ -6,6 +6,7 @@ import log.qushe8r.stockdiscussionforum.newfeedservice.application.port.in.NewsF
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +19,7 @@ public class NewsFeedRegistrationWebAdapter {
     private final NewsFeedRegistrationUseCase useCase;
 
     @PostMapping
-    public ResponseEntity<Void> registerNewsFeed(NewsFeedRegistrationCommand command) {
+    public ResponseEntity<Void> registerNewsFeed(@RequestBody NewsFeedRegistrationCommand command) {
         useCase.registerNewsFeed(command);
         return ResponseEntity.ok().build();
     }
