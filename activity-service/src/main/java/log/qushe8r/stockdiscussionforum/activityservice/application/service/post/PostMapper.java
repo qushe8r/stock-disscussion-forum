@@ -7,6 +7,7 @@ import log.qushe8r.stockdiscussionforum.activityservice.application.port.in.post
 import log.qushe8r.stockdiscussionforum.activityservice.application.service.comment.CommentMapper;
 import log.qushe8r.stockdiscussionforum.activityservice.domain.Comment;
 import log.qushe8r.stockdiscussionforum.activityservice.domain.Post;
+import log.qushe8r.stockdiscussionforum.activityservice.domain.PostLike;
 import log.qushe8r.stockdiscussionforum.activityservice.domain.Writer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -37,6 +38,20 @@ public class PostMapper {
         return Post.create(postId, title, content, writer, null, null);
     }
 
+    public Post toDomainEntity(Long requestingUserId, PostJpaEntity postJpaEntity) {
+        Long postId = postJpaEntity.getId();
+        String title = postJpaEntity.getTitle();
+        String content = postJpaEntity.getContent();
+        Long writerId = postJpaEntity.getWriterId();
+
+        long postLikeCount = postJpaEntity.getPostLikeJpaEntities().size();
+        boolean likeByMe = postJpaEntity.getPostLikeJpaEntities().stream()
+                .anyMatch(postLikeJpaEntity -> postLikeJpaEntity.getUserId().equals(requestingUserId));
+        PostLike postLike = new PostLike(postLikeCount, likeByMe);
+
+        return Post.create(postId, title, content, new Writer(writerId, null), List.of(), postLike);
+    }
+
     public Post toDomainEntity(PostJpaEntity postJpaEntity, Map<Long, String> writerIdNickname) {
         Long postId = postJpaEntity.getId();
         String title = postJpaEntity.getTitle();
@@ -56,7 +71,8 @@ public class PostMapper {
                 post.getTitle(),
                 post.getContent(),
                 post.getWriter().id(),
-                commentMapper.toJpaEntities(post.getComments())
+                commentMapper.toJpaEntities(post.getComments()),
+                null
         );
     }
 

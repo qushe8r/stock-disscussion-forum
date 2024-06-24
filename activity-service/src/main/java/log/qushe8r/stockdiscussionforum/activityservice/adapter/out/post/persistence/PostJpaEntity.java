@@ -31,8 +31,11 @@ public class PostJpaEntity {
     @Column(name = "post_writer_id", nullable = false, updatable = false)
     private Long writerId;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "postJpaEntity", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "postJpaEntity")
     private List<CommentJpaEntity> commentJpaEntities = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "postJpaEntity")
+    private List<PostLikeJpaEntity> postLikeJpaEntities = new ArrayList<>();
 
     public PostJpaEntity(Long id) {
         this.id = id;
