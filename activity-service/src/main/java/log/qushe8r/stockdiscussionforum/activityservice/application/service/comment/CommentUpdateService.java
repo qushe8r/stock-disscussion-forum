@@ -1,6 +1,8 @@
 package log.qushe8r.stockdiscussionforum.activityservice.application.service.comment;
 
 import log.qushe8r.stockdiscussionforum.activityservice.adapter.out.comment.persistence.CommentJpaEntity;
+import log.qushe8r.stockdiscussionforum.activityservice.adapter.out.newsfeed.web.NewsFeedCommand;
+import log.qushe8r.stockdiscussionforum.activityservice.adapter.out.newsfeed.web.NewsFeedServiceClient;
 import log.qushe8r.stockdiscussionforum.activityservice.application.port.in.comment.CommentUpdateCommand;
 import log.qushe8r.stockdiscussionforum.activityservice.application.port.in.comment.CommentUpdateUseCase;
 import log.qushe8r.stockdiscussionforum.activityservice.application.port.out.comment.persistence.CommentQueryPersistencePort;
@@ -19,6 +21,7 @@ public class CommentUpdateService implements CommentUpdateUseCase {
     private final CommentMapper mapper;
     private final CommentQueryPersistencePort queryPort;
     private final CommentUpdatePersistencePort persistencePort;
+    private final NewsFeedServiceClient client;
 
     @Transactional
     @Override
@@ -31,6 +34,8 @@ public class CommentUpdateService implements CommentUpdateUseCase {
 
         CommentJpaEntity commentJpaEntity = mapper.toJpaEntityPostWithIdOnly(comment);
         persistencePort.updateComment(commentJpaEntity);
+
+        client.registerNewsfeeds(NewsFeedCommand.updateComment(userId, commentId, comment.getPost().getId()));
     }
 
 }
