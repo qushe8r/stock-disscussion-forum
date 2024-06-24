@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/posts")
-public class PostRegistrationController {
+public class PostRegistrationWebAdapter {
 
     private final PostRegistrationUseCase useCase;
 
