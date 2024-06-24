@@ -4,6 +4,6 @@ import log.qushe8r.stockdiscussionforum.activityservice.application.port.in.comm
 
 public interface CommentRegistrationPersistencePort {
 
-    void registerComment(Long userId, Long postId, CommentRegistrationCommand command);
+    Long registerComment(Long userId, Long postId, CommentRegistrationCommand command);
 
 }

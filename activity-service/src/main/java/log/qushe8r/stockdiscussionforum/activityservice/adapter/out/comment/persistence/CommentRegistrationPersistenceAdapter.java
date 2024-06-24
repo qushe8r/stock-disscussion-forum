@@ -12,9 +12,10 @@ public class CommentRegistrationPersistenceAdapter implements CommentRegistratio
     private final CommentJpaRepository repository;
 
     @Override
-    public void registerComment(Long userId, Long postId, CommentRegistrationCommand command) {
+    public Long registerComment(Long userId, Long postId, CommentRegistrationCommand command) {
         CommentJpaEntity commentJpaEntity = new CommentJpaEntity(postId, command.getContent(), userId);
-        repository.save(commentJpaEntity);
+        CommentJpaEntity saved = repository.save(commentJpaEntity);
+        return saved.getId();
     }
 
 }
